@@ -48,7 +48,7 @@ footer a { color:var(--ghost); }
 <h1>Bloom Keyboard — Privacy Policy</h1>
 <p><em>Last updated: October 19, 2026</em></p>
 <p>Bloom is a keyboard for Android. A keyboard can see everything you type, so this policy says exactly what Bloom does with it.</p>
-<p><strong>Short version:</strong> Bloom has no internet access. What you type, what you copy, and what you dictate stay on your phone. Bloom collects nothing, sends nothing, and shows no ads.</p>
+<p><strong>Short version:</strong> Bloom has no internet access and doesn't use the microphone. What you type and what you copy stay on your phone. Bloom collects nothing, sends nothing, and shows no ads.</p>
 <h2>Who is responsible</h2>
 <p>Bloom is made by Chirag Agarwal Labs, an independent developer in Montréal, Québec, Canada.</p>
 <p>Person responsible for the protection of personal information: <strong>Chirag Agarwal (Chirag Agarwal Labs), developer — <a href="mailto:apps@agarwalchirag.com">apps@agarwalchirag.com</a></strong></p>
@@ -79,14 +79,8 @@ footer a { color:var(--ghost); }
 </tr>
 <tr>
 <td data-label="What"><strong>Password and private fields</strong></td>
-<td data-label="What Bloom does with it">Bloom shows a lock and turns off suggestions, clipboard shortcuts and dictation. Text from these fields never enters the clipboard history. Copied items that apps mark as sensitive are skipped.</td>
+<td data-label="What Bloom does with it">Bloom shows a lock and turns off suggestions and clipboard shortcuts. Text from these fields never enters the clipboard history. Copied items that apps mark as sensitive are skipped.</td>
 <td data-label="Stored?">No</td>
-<td data-label="Leaves your phone?">No</td>
-</tr>
-<tr>
-<td data-label="What"><strong>Microphone (dictation)</strong></td>
-<td data-label="What Bloom does with it">Only while you tap the mic. Bloom passes the audio to Android's <strong>on-device</strong> speech recognizer and types the words it returns. Dictation works on Android 13 and newer, on phones that have an on-device recognizer. On older versions, or without one, dictation is unavailable and the mic shows a message instead. Bloom never falls back to an online service. If your phone's speech recognizer is missing the language model it needs, Bloom asks Android to install it. The download is done by your phone's own speech service, from its provider (for example, Google), just as when you install a language in system settings. Bloom itself sends nothing.</td>
-<td data-label="Stored?">No. Bloom never records or saves audio.</td>
 <td data-label="Leaves your phone?">No</td>
 </tr>
 <tr>
@@ -100,6 +94,7 @@ footer a { color:var(--ghost); }
 <h2>What Bloom does not do</h2>
 <ul>
 <li>No accounts and no sign-in.</li>
+<li>No microphone access.</li>
 <li>No analytics, tracking or advertising, and no third-party code that does any of these.</li>
 <li>No selling or sharing of data. There's nothing to share.</li>
 <li>No logging of what you type.</li>
@@ -107,6 +102,7 @@ footer a { color:var(--ghost); }
 <h2>Google Play</h2>
 <p>If you have chosen to share usage and diagnostics with Google in your phone's settings, Google Play may give developers anonymous, aggregated crash and performance statistics. These never include what you type. Google's own privacy policy covers them: <a href="https://policies.google.com/privacy" rel="noopener">https://policies.google.com/privacy</a></p>
 <h2>Permissions</h2>
+<p>Bloom requests one permission:</p>
 <div class="tbl"><table>
 <thead>
 <tr>
@@ -115,10 +111,6 @@ footer a { color:var(--ghost); }
 </tr>
 </thead>
 <tbody>
-<tr>
-<td data-label="Permission">Microphone</td>
-<td data-label="Why">Dictation, only while you tap the mic. Android asks before Bloom can use it, and you can revoke it at any time.</td>
-</tr>
 <tr>
 <td data-label="Permission">Vibrate</td>
 <td data-label="Why">Haptic feedback on key presses.</td>
