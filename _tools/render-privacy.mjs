@@ -26,56 +26,52 @@ body = body.replace(/<table>([\s\S]*?)<\/table>/g, (t) => {
 });
 body = body.replace(/<a href="(https?:[^"]+)">/g, '<a href="$1" rel="noopener">');
 
+// Essay layout: contents | policy | facts, same grid as the site's case studies.
+const h1m = body.match(/<h1>([\s\S]*?)<\/h1>\s*/);
+const title = h1m ? h1m[1] : `${app} Privacy Policy`;
+if (h1m) body = body.replace(h1m[0], '');
+const slug = (t) => t.replace(/<[^>]+>/g, '').toLowerCase().replace(/&[a-z]+;/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+const toc = [];
+body = body.replace(/<h2>([\s\S]*?)<\/h2>/g, (_, t) => { const id = slug(t); toc.push([id, t.replace(/<[^>]+>/g, '')]); return `<h2 id="${id}">${t}</h2>`; });
+const product = { Bloom: '/bloom/' }[app];
+const key = app.toLowerCase();
+const nav = (product ? `<a href="${product}">${app}</a>` : '') + `<a href="/${key}/privacy/" aria-current="page">Privacy</a>`;
+
 const html = `<!doctype html>
-<html lang="en">
+<html lang="en" class="${key}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${app} Privacy Policy</title>
 <meta name="description" content="How ${app} handles your information.">
+<meta name="theme-color" content="#1C1814">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap">
-<style>
-:root { --bg:#1C1814; --panel:#221C16; --fg:#EDE8DF; --muted:#A89880; --ghost:#6A5E52; --line:#3A3428; --accent:#C49080; color-scheme:dark;
-  --serif:"Lora",Georgia,serif; --mono:"JetBrains Mono",ui-monospace,Menlo,monospace; }
-@media (prefers-color-scheme: light) { :root { --bg:#FAF7F2; --panel:#F3EDE3; --fg:#1C1814; --muted:#7D6E5A; --ghost:#A89880; --line:#E2D9CA; --accent:#B67A68; color-scheme:light; } }
-* { box-sizing:border-box; }
-html { -webkit-text-size-adjust:100%; }
-body { margin:0; background:var(--bg); color:var(--fg); font-family:var(--serif); font-size:17px; line-height:1.65; }
-a { color:var(--accent); text-underline-offset:3px; text-decoration-thickness:1px; overflow-wrap:anywhere; }
-header, main, footer { max-width:44rem; margin:0 auto; padding:0 16px; }
-header { padding-top:28px; font-family:var(--mono); font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; }
-header a { color:var(--ghost); text-decoration:none; }
-main { padding-bottom:48px; }
-h1 { font-size:clamp(30px,6vw,42px); line-height:1.15; font-weight:600; margin:40px 0 8px; }
-h1 + p em { font-style:normal; font-family:var(--mono); font-size:12px; letter-spacing:.06em; color:var(--ghost); }
-h2 { font-size:22px; font-weight:600; margin:44px 0 10px; }
-p, li { color:var(--fg); }
-strong { font-weight:600; }
-ul { padding-left:20px; }
-.tbl { overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:8px; }
-table { border-collapse:collapse; width:100%; font-size:15px; line-height:1.5; }
-th, td { text-align:left; vertical-align:top; padding:10px 12px; border-top:1px solid var(--line); }
-thead th { border-top:0; background:var(--panel); font-family:var(--mono); font-weight:400; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
-@media (max-width:640px) {
-  .tbl { border:0; overflow:visible; }
-  table, tbody, tr, td { display:block; width:100%; }
-  thead { display:none; }
-  tr { border:1px solid var(--line); border-radius:8px; margin:0 0 12px; padding:4px 0; }
-  td { border:0; padding:6px 12px; }
-  td::before { content:attr(data-label); display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--ghost); }
-}
-footer { padding-bottom:40px; border-top:1px solid var(--line); padding-top:16px; font-family:var(--mono); font-size:11.5px; color:var(--ghost); }
-footer a { color:var(--ghost); }
-</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-<header><a href="/">agarwalchirag.com</a></header>
-<main>
+<header class="bar"><a class="me" href="/">CHIRAG AGARWAL</a><nav>${nav}</nav></header>
+<main class="essay">
+<nav class="toc" aria-label="Contents"><span class="k">Contents</span>
+${toc.map(([id, t]) => `<a href="#${id}">${t}</a>`).join('\n')}
+</nav>
+<article class="body">
+<div class="head"><h1>${title}</h1></div>
+<div class="prose">
 ${body}
+</div>
+</article>
+<aside class="side">
+<dl class="facts">
+<div><dt>App</dt><dd>${product ? `<a href="${product}">${app}</a>` : app}</dd></div>
+<div><dt>Publisher</dt><dd>Chirag Agarwal Labs, Montréal</dd></div>
+<div><dt>Last updated</dt><dd>${pretty}</dd></div>
+<div><dt>Contact</dt><dd><a href="mailto:apps@agarwalchirag.com">apps@agarwalchirag.com</a></dd></div>
+</dl>
+</aside>
 </main>
-<footer>${app} · Chirag Agarwal Labs · <a href="mailto:apps@agarwalchirag.com">apps@agarwalchirag.com</a></footer>
+<footer class="foot"><span>${app.toUpperCase()} · CHIRAG AGARWAL LABS</span><a href="mailto:apps@agarwalchirag.com">APPS@AGARWALCHIRAG.COM</a><a href="/">AGARWALCHIRAG.COM</a></footer>
 </body>
 </html>
 `;
