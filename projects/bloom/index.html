@@ -1,0 +1,458 @@
+<!DOCTYPE html><html lang="en" style="--accent: var(--amber)"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Bloom · Chirag Agarwal</title><meta name="description" content="A hex keyboard for Android, designed for thumbs, with Learn to make the switch from QWERTY. No internet access."><link rel="canonical" href="https://agarwalchirag.com/projects/bloom/"><meta property="og:title" content="Bloom · Chirag Agarwal"><meta property="og:description" content="A hex keyboard for Android, designed for thumbs, with Learn to make the switch from QWERTY. No internet access."><meta name="theme-color" content="#1C1814"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap"><style>.cs-bloom {
+  --comb: #120F0B; --panel: #16120D; --panel2: #1D1812; --honey: #E8B85A; --amber: #C8941A; --cream: #E9DCC0; --wax: #A88E62;
+  --text: #EDE3D0; --text2: #BFB29C; --muted: #8E8068; --line: #3E342A; --line2: #2A231B;
+  --serif: "Lora", Georgia, serif; --mono: "JetBrains Mono", ui-monospace, monospace;
+  --gutter: clamp(16px, 5vw, 72px);
+}
+.cs-bloom * { box-sizing: border-box; }
+.cs-bloom { margin: 0; background: var(--comb); color: var(--text); font-family: var(--serif); font-size: 17.5px; line-height: 1.65; overflow-x: clip; }
+.cs-bloom img { max-width: 100%; display: block; }
+.cs-bloom p { margin: 0; }
+.cs-bloom h1, .cs-bloom h2, .cs-bloom h3 { font-weight: 500; font-style: italic; margin: 0; text-wrap: balance; color: var(--text); }
+.cs-bloom .k { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.cs-bloom section { position: relative; }
+.cs-bloom .band { padding: clamp(56px, 8vw, 120px) var(--gutter); }
+
+/* hero: the real board, faint, typing its own name */
+.cs-bloom .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 40px clamp(32px, 4vw, 64px); align-items: center; padding: clamp(48px, 7vw, 110px) var(--gutter) clamp(56px, 7vw, 100px); min-height: 84vh; overflow: hidden; }
+.cs-bloom .hero h1 { font-size: clamp(76px, 11vw, 168px); line-height: .92; margin-top: 10px; color: var(--honey); }
+.cs-bloom .hero .tag { font-style: italic; color: var(--text2); font-size: clamp(18px, 1.6vw, 22px); margin-top: 12px; }
+.cs-bloom .hero .lede { font-size: clamp(19px, 1.6vw, 23px); line-height: 1.5; max-width: 32ch; margin-top: 24px; }
+.cs-bloom .facts { display: flex; flex-wrap: wrap; gap: 14px 30px; margin: 28px 0 0; }
+.cs-bloom .facts div { display: grid; gap: 2px; }
+.cs-bloom .facts dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.cs-bloom .facts dd { margin: 0; font-style: italic; }
+.cs-bloom .hero-art { position: relative; display: grid; place-items: center; min-height: clamp(300px, 36vw, 520px); }
+.cs-bloom .comb { position: absolute; inset: 0 -6vw 0 -2vw; width: calc(100% + 8vw); height: 100%; opacity: .6; }
+.cs-bloom .icon { position: relative; margin: 0; display: grid; gap: 14px; justify-items: center; align-self: end; justify-self: end; margin-right: 4%; }
+.cs-bloom .icon img { width: clamp(140px, 15vw, 230px); border-radius: 22%; box-shadow: 0 40px 80px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(232,184,90,.18), 0 0 60px -10px rgba(232,184,90,.25); }
+.cs-bloom .icon figcaption { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--muted); }
+
+/* the duel: scroll types the phrase on both boards at once */
+.cs-bloom .duel { min-height: 260vh; padding-top: 0; padding-bottom: 0; }
+.cs-bloom .duel-stick { position: sticky; top: var(--barh, 0px); min-height: calc(100vh - var(--barh, 0px)); display: grid; align-content: center; gap: clamp(18px, 2.4vw, 30px); padding: 40px 0; }
+.cs-bloom .duel-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 12px clamp(28px, 5vw, 88px); align-items: end; }
+.cs-bloom .duel-head .k { grid-column: 1 / -1; }
+.cs-bloom .duel-head h2 { font-size: clamp(30px, 3.4vw, 50px); line-height: 1.08; }
+.cs-bloom .duel-head p { color: var(--text2); max-width: 54ch; }
+.cs-bloom .typed { font-family: var(--mono); font-size: 12px; letter-spacing: .1em; color: var(--muted); text-align: center; min-height: 1.6em; }
+.cs-bloom .typed em { font-style: normal; color: var(--honey); }
+
+/* pull quote */
+.cs-bloom .pull { padding: clamp(40px, 6vw, 90px) var(--gutter); }
+.cs-bloom .pull blockquote { margin: 0 auto; max-width: 22ch; text-align: center; font-style: italic; font-size: clamp(34px, 4.6vw, 68px); line-height: 1.12; color: var(--text); text-wrap: balance; }
+.cs-bloom .pull blockquote span { color: var(--honey); }
+
+/* phone tour */
+.cs-bloom .tour { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 0 clamp(28px, 5vw, 88px); }
+.cs-bloom .tour .head { grid-column: 1 / -1; display: grid; gap: 14px; margin-bottom: clamp(20px, 4vw, 56px); }
+.cs-bloom .tour .head p { color: var(--text2); max-width: 52ch; }
+.cs-bloom .tour .head h2 { font-size: clamp(32px, 3.6vw, 52px); line-height: 1.08; }
+.cs-bloom .tsteps { display: grid; }
+.cs-bloom .tstep { min-height: 80vh; max-width: 46ch; color: var(--text2); opacity: .3; transition: opacity .45s; }
+.cs-bloom .tin { position: sticky; top: calc(50vh - 120px); display: grid; gap: 10px; padding: 12vh 0; }
+.cs-bloom .tstep.on { opacity: 1; }
+.cs-bloom .tstep .n { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--honey); }
+.cs-bloom .tstep h3 { font-size: clamp(24px, 2.4vw, 34px); line-height: 1.15; }
+.cs-bloom .tstage { position: sticky; top: calc(var(--barh, 0px) + max(2vh, (100vh - var(--barh, 0px) - 780px) / 2)); height: min(calc(96vh - var(--barh, 0px)), 780px); display: grid; justify-items: center; align-self: start; grid-row: 2; grid-column: 2; }
+.cs-bloom .phone { height: 100%; aspect-ratio: 540 / 1126; background: #0a0806; border-radius: clamp(26px, 3vw, 40px); padding: clamp(7px, .7vw, 10px); box-shadow: 0 50px 90px -40px rgba(0,0,0,.95), 0 0 0 1px rgba(232,184,90,.12); }
+.cs-bloom .scr { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: clamp(20px, 2.4vw, 31px); background: var(--comb); }
+.cs-bloom .scr video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 0 0; will-change: transform; }
+
+/* key decision */
+.cs-bloom .decide, .cs-bloom .private { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px clamp(28px, 5vw, 88px); align-items: center; }
+.cs-bloom .private .txt, .cs-bloom .decide .txt { display: grid; gap: 16px; color: var(--text2); }
+.cs-bloom .private h2, .cs-bloom .decide h2 { font-size: clamp(30px, 3.2vw, 46px); line-height: 1.1; }
+.cs-bloom .decide .cost { border-top: 1px solid var(--line); padding-top: 14px; }
+.cs-bloom .decide .cost b { color: var(--text); font-weight: 500; }
+.cs-bloom .perms { margin: 0; background: var(--panel); border-radius: 18px; padding: clamp(18px, 2.4vw, 30px); box-shadow: inset 0 0 0 1px var(--line2); }
+.cs-bloom .perms .ph { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 1px solid var(--line2); }
+.cs-bloom .perms ul { list-style: none; margin: 0; padding: 0; }
+.cs-bloom .perms li { display: grid; grid-template-columns: minmax(0, auto) 1fr; gap: 4px 18px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line2); }
+.cs-bloom .perms code { font-family: var(--mono); font-size: clamp(13px, 1.2vw, 15.5px); letter-spacing: .04em; position: relative; }
+.cs-bloom .perms li span { font-style: italic; color: var(--muted); font-size: 15px; }
+.cs-bloom .perms li.no code { color: var(--muted); }
+.cs-bloom .perms li.no code::after { content: ""; position: absolute; left: -3px; right: -3px; top: 52%; height: 1.5px; background: var(--wax); transform: scaleX(var(--s, 0)); transform-origin: 0 50%; transition: transform .6s cubic-bezier(.3,.7,.2,1) var(--d, 0s); }
+.cs-bloom .perms.on li.no code::after { --s: 1; }
+.cs-bloom .perms li.yes code { color: var(--honey); }
+.cs-bloom .perms li.yes span { color: var(--text2); }
+.cs-bloom .perms figcaption { margin-top: 12px; font-size: 14px; font-style: italic; color: var(--muted); }
+
+/* how it grew */
+.cs-bloom .grew { padding-top: 0; }
+.cs-bloom .timeline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 18px; border-top: 1px solid var(--line); padding-top: 22px; }
+.cs-bloom .timeline b { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .1em; color: var(--honey); }
+.cs-bloom .timeline p { color: var(--text2); margin-top: 6px; font-size: 16px; }
+.cs-bloom .grew .note { margin-top: 28px; color: var(--muted); font-size: 15.5px; max-width: 70ch; font-style: italic; }
+
+/* what's next */
+.cs-bloom .next { background: var(--panel); box-shadow: inset 0 0 0 1px var(--line2); border-radius: clamp(18px, 2.4vw, 32px); margin: 0 var(--gutter) clamp(56px, 8vw, 110px); padding: clamp(32px, 4.6vw, 64px); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 30px clamp(28px, 5vw, 72px); align-items: center; }
+.cs-bloom .next h2 { font-size: clamp(30px, 3.4vw, 48px); line-height: 1.08; margin-top: 10px; }
+.cs-bloom .next p { color: var(--text2); margin-top: 16px; max-width: 46ch; }
+.cs-bloom .next .app { display: inline-block; margin-top: 20px; font-style: italic; color: var(--honey); text-decoration: none; border-bottom: 1px solid currentColor; }
+.cs-bloom .banner { margin: 0; border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(0,0,0,.9); }
+
+@media (prefers-reduced-motion: reduce) { .cs-bloom .tstep, .cs-bloom .perms li.no code::after { transition: none; } }
+@media (max-width: 860px) {
+  .cs-bloom .hero, .cs-bloom .decide, .cs-bloom .next, .cs-bloom .duel-head { grid-template-columns: 1fr; }
+  .cs-bloom .hero { min-height: 0; }
+  .cs-bloom .hero-art { min-height: 260px; }
+  .cs-bloom .comb { inset: 0 -12vw; width: calc(100% + 24vw); }
+  .cs-bloom .duel { min-height: 240vh; }
+  .cs-bloom .duel-head p { display: none; }
+  .cs-bloom .tour { grid-template-columns: 1fr; }
+  .cs-bloom .tstage { grid-row: 2; grid-column: 1; top: var(--barh, 0px); height: 60vh; width: calc(100% + 2 * var(--gutter)); margin: 0 calc(-1 * var(--gutter)); padding: 12px 0 14px; background: linear-gradient(var(--comb) 88%, rgba(18,15,11,0)); z-index: 3; }
+  .cs-bloom .tsteps { grid-row: 3; padding-bottom: 24vh; } .cs-bloom .tin { top: 62vh; padding: 4vh 0; }
+  .cs-bloom .timeline { grid-template-columns: 1fr; }
+}
+.cs-bloom .rhythm { margin: 0; background: var(--panel); border-radius: 18px; padding: clamp(14px, 2vw, 28px); box-shadow: inset 0 0 0 1px var(--line2); }
+.cs-bloom .rhythm svg { width: 100%; height: auto; display: block; }
+.cs-bloom .rhythm figcaption { margin-top: 10px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; color: var(--muted); font-size: 15px; font-style: italic; }
+.cs-bloom .rhythm figcaption .rep { display: inline-block; width: 26px; height: 3px; border-radius: 2px; background: #D2694B; transform: translateY(-4px); }
+.cs-bloom .rhythm figcaption b { font-family: var(--mono); font-style: normal; font-weight: 500; font-size: 20px; color: var(--honey); }
+.cs-bloom .private { padding-top: 0; }
+.cs-bloom .hold { margin: 0; background: var(--panel); border-radius: 18px; padding: clamp(18px, 2.4vw, 30px); box-shadow: inset 0 0 0 1px var(--line2); display: grid; gap: 16px; --lab: clamp(84px, 9vw, 120px); }
+.cs-bloom .hold .days { display: grid; grid-template-columns: repeat(10, 1fr); margin-left: var(--lab); font-family: var(--mono); font-size: 10px; letter-spacing: .08em; color: var(--muted); border-bottom: 1px solid var(--line2); padding-bottom: 8px; }
+.cs-bloom .hold .lane { position: relative; height: 46px; display: flex; align-items: center; }
+.cs-bloom .hold .lab { width: var(--lab); flex: none; font-style: italic; color: var(--text2); font-size: 15px; }
+.cs-bloom .hold .bar, .cs-bloom .hold .pin { position: absolute; left: calc(var(--lab) + (100% - var(--lab)) * var(--a) / 10); }
+.cs-bloom .hold .bar { width: calc((100% - var(--lab)) * (var(--b) - var(--a)) / 10); height: 26px; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; overflow: hidden; }
+.cs-bloom .hold .bar i, .cs-bloom .hold .pin i { font-family: var(--mono); font-style: normal; font-size: 10px; letter-spacing: .06em; white-space: nowrap; }
+.cs-bloom .hold .ready { background: rgba(233,220,192,.08); box-shadow: inset 0 0 0 1px rgba(233,220,192,.22); color: var(--text2); }
+.cs-bloom .hold .build { background: rgba(232,184,90,.22); box-shadow: inset 0 0 0 1px var(--honey); color: var(--honey); }
+.cs-bloom .hold .wait { background: repeating-linear-gradient(135deg, rgba(210,105,75,.18) 0 6px, transparent 6px 12px); box-shadow: inset 0 0 0 1px rgba(210,105,75,.6); color: #E59A80; }
+.cs-bloom .hold .review { background: transparent; box-shadow: inset 0 0 0 1px dashed; border: 1px dashed var(--line); color: var(--muted); }
+.cs-bloom .hold .pin { top: -2px; bottom: -2px; width: 0; border-left: 1.5px solid var(--honey); }
+.cs-bloom .hold .pin i { position: absolute; top: -14px; left: 6px; color: var(--honey); }
+.cs-bloom .hold .pin.live { border-color: #8FD18F; } .cs-bloom .hold .pin.live i { left: auto; right: 6px; color: #8FD18F; }
+.cs-bloom .hold figcaption { font-size: 14px; font-style: italic; color: var(--muted); }
+@media (max-width: 860px) { .cs-bloom .private { grid-template-columns: 1fr; } .cs-bloom .hold .days span:nth-child(even) { visibility: hidden; } .cs-bloom .hold .bar i { font-size: 9px; } }
+</style> <link rel="stylesheet" href="/_astro/index.ByanwA_w.css"></head> <body> <header class="bar"> <a class="me" href="/">CHIRAG AGARWAL</a> <nav> <a href="/notes/" data-chapter="notes">Notes</a><a href="/projects/" data-chapter="projects" aria-current="page">Projects</a><a href="/work/" data-chapter="work">Work</a> </nav> </header>   <div class="cs cs-bloom cs-theme-dark"><section class="hero">
+  <div class="hero-txt">
+    <span class="k">Case study · since 2024</span>
+    <h1>Bloom</h1>
+    <p class="tag">A keyboard for thumbs</p>
+    <p class="lede">The keyboard on my phone: a honeycomb of hexagonal keys, laid out for two thumbs instead of ten fingers. It started as a way to learn Dvorak, and for well over a year it was simply the keyboard I used every day. In 2026 I levelled it up to share it.</p>
+    <dl class="facts">
+      <div><dt>Layout</dt><dd>5-row Dvorak honeycomb</dd></div>
+      <div><dt>Internet</dt><dd>None, by design</dd></div>
+      <div><dt>Built</dt><dd>Kotlin, keys drawn on a canvas</dd></div>
+    </dl>
+  </div>
+  <div class="hero-art">
+    <svg class="comb" data-comb viewBox="0 0 480 290" aria-hidden="true"></svg>
+    <figure class="icon"><img src="/icons/bloom.png" alt="Bloom's app icon" width="384" height="384"><figcaption>APP</figcaption></figure>
+  </div>
+</section>
+
+<section class="band duel" data-duel>
+  <div class="duel-stick">
+    <div class="duel-head">
+      <span class="k">The problem</span>
+      <h2>QWERTY was never redesigned for thumbs.</h2>
+      <p>It was laid out in the 1870s for typewriters and ten fingers on a desk. Phones copied it key for key and added autocorrect on top, but the layout underneath never changed for the way we actually type: with two thumbs. Watch where the work lands.</p>
+    </div>
+    <figure class="rhythm">
+      <svg data-rhythm viewBox="0 0 760 330" role="img" aria-label="Which thumb types each letter of 'were was after': on QWERTY the letters pile up on one thumb; on Bloom they alternate"></svg>
+      <figcaption><span class="rep"></span> one thumb twice in a row · <b data-count="qwerty">0</b> on QWERTY · <b data-count="bloom">0</b> on Bloom</figcaption>
+    </figure>
+    <p class="typed" aria-live="polite" data-typed></p>
+  </div>
+</section>
+
+<section class="pull"><blockquote>Comfort comes first. <span>Speed comes with practice.</span></blockquote></section>
+
+<section class="band tour" data-tour>
+  <div class="head">
+    <span class="k">How it works</span>
+    <h2>Built around two thumbs, and a way in.</h2>
+    <p>One real recording on the Play build. Scroll to play it, scroll back to rewind.</p>
+  </div>
+  <div class="tsteps">
+    <div class="tstep on" data-t="0 16" data-rate="80">
+      <div class="tin">
+      <span class="n">01 · TWO SPACE BARS</span>
+      <h3>One for each thumb.</h3>
+      <p>Hexagons pack without gaps, so five rows hold every letter, punctuation, shift, backspace and enter, with keys that are easy to hit. Vowels on one side, the most common consonants on the other, so your thumbs take turns, and whichever thumb is free takes the space.</p>
+      </div>
+    </div>
+    <div class="tstep" data-t="16 46" data-rate="70">
+      <div class="tin">
+      <span class="n">02 · GESTURES</span>
+      <h3>Swipe instead of reaching.</h3>
+      <p>Swipe right to take the suggestion, swipe left to delete a typo, swipe up on a key for the number in its corner. "2026" never leaves the letters. Suggestions come from about 10,000 words ranked by frequency, all on the phone.</p>
+      </div>
+    </div>
+    <div class="tstep" data-t="46 57.5" data-rate="70">
+      <div class="tin">
+      <span class="n">03 · CHANGED YOUR MIND</span>
+      <h3>Drag back to undo the delete.</h3>
+      <p>Swipe left and hold, and it deletes a character at a time as your thumb drags. Slide back right without lifting and they come back, in order. Once you've used it, it's the gesture you miss everywhere else.</p>
+      </div>
+    </div>
+    <div class="tstep" data-t="57.5 99.5" data-rate="28">
+      <div class="tin">
+      <span class="n">04 · LEARN</span>
+      <h3>A tour of the gestures first.</h3>
+      <p>Years of QWERTY make any new layout slow at first. Learn starts with a two-minute tour on the real keyboard, one gesture at a time.</p>
+      </div>
+    </div>
+    <div class="tstep" data-t="99.5 127.2" data-rate="45">
+      <div class="tin">
+      <span class="n">05 · LESSONS</span>
+      <h3>Then short lessons.</h3>
+      <p>Eight lessons build up from the home keys to the most-used words. The next key glows, a wrong key isn't typed, and hints stay on for the first two.</p>
+      </div>
+    </div>
+  </div>
+  <div class="tstage" aria-label="A recording of Bloom: typing with both space bars, the gestures, then Learn's tour and a lesson">
+    <div class="phone"><div class="scr" data-scr>
+      <video data-src="/case/bloom/flow.mp4" poster="/case/bloom/flow.jpg" muted playsinline preload="none"></video>
+    </div></div>
+  </div>
+</section>
+
+<section class="band decide">
+  <div class="txt">
+    <span class="k">Key decision</span>
+    <h2>No testers until there was a way in.</h2>
+    <p>By mid-October Bloom worked. I'd typed on it every day for well over a year. But Google Play's closed test hands an app to a dozen people for two weeks, and most of them would arrive from QWERTY. A new layout is slow at first, and a slow first hour is when people give up on it.</p>
+    <p>So the bar for testing wasn't "it works". It was "someone new can find their way in". Learn, the guided tour and eight lessons on the real keyboard, was marked as blocking the closed test, and testers waited until it was done.</p>
+    <p class="cost"><b>The cost is time.</b> The two-week testing clock started later, and the public release moves with it.</p>
+  </div>
+  <figure class="hold" aria-label="October 2026: the keyboard was ready on the 19th; Learn was built from the 19th to the 23rd; the closed test went live on the 28th">
+    <div class="days" aria-hidden="true"><span>OCT 19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span></div>
+    <div class="lane"><span class="lab">The keyboard</span><span class="bar ready" style="--a:0;--b:10"><i>ready for testers</i></span></div>
+    <div class="lane"><span class="lab">Learn</span><span class="bar build" style="--a:0;--b:4.6"><i>tour + 8 lessons, built</i></span><span class="pin" style="--a:3.5"><i>prototype signed off</i></span></div>
+    <div class="lane"><span class="lab">Testers</span><span class="bar wait" style="--a:0;--b:4.6"><i>held for Learn</i></span><span class="bar review" style="--a:4.6;--b:9"><i>new build, Play review</i></span><span class="pin live" style="--a:9.4"><i>closed test live</i></span></div>
+    <figcaption>From Bloom's roadmap: Learn "blocks the closed test".</figcaption>
+  </figure>
+</section>
+
+<section class="band private">
+  <div class="txt">
+    <span class="k">Privacy</span>
+    <h2>Nothing you type leaves the phone.</h2>
+    <p>A keyboard sees everything you type, so Bloom leaves out Android's internet permission entirely: it can't send anything anywhere. Dictation came and went before release, so it needs no microphone either. No sync, no AI rewrites. For a keyboard, that's the right trade.</p>
+  </div>
+  <figure class="perms" data-perms>
+    <div class="ph"><span class="k">What Bloom asks Android for</span><span class="k">FROM THE RELEASE BUILD</span></div>
+    <ul>
+      <li class="no"><code>INTERNET</code><span>send or receive anything</span></li>
+      <li class="no"><code>RECORD_AUDIO</code><span>listen through the microphone</span></li>
+      <li class="no"><code>READ_CONTACTS</code><span>learn names from your contacts</span></li>
+      <li class="no"><code>ACCESS_NETWORK_STATE</code><span>check whether you're online</span></li>
+      <li class="yes"><code>VIBRATE</code><span>a small buzz on each key</span></li>
+    </ul>
+    <figcaption>One permission. The other four are ones keyboards commonly ask for.</figcaption>
+  </figure>
+</section>
+
+<section class="band grew">
+  <span class="k">How it grew</span>
+  <div class="timeline">
+    <div><b>2024</b><p>A honeycomb Dvorak keyboard I built to learn the layout, and kept using long after I'd learned it.</p></div>
+    <div><b>2026</b><p>Picked back up with my coding agents: a canvas renderer, the gestures, palettes and knobs, word completion on the phone.</p></div>
+    <div><b>OCT 2026</b><p>Ready for other people: an icon, a setup screen, a facelift, and Learn, because someone coming from QWERTY needs a way in that I never did.</p></div>
+  </div>
+  <p class="note">Plain Kotlin, no Android Studio, no Compose. Every key is drawn on a canvas and every build goes out over adb, which kept the app small enough for a team of coding agents and me to hold in our heads.</p>
+</section>
+
+<section class="next">
+  <div>
+    <span class="k">What's next</span>
+    <h2>Out of testing, onto Google Play.</h2>
+    <p>Bloom is in closed testing now. Next it opens up to everyone on Google Play. After that, maybe iOS: a new build rather than a port, and only if it can keep the same rule, no internet.</p>
+    <a class="app" href="/bloom/">Bloom's page →</a>
+  </div>
+  <figure class="banner"><img src="/bloom/banner-1200.webp" alt="Bloom's Google Play banner: made for thumbs, not typewriters" width="1200" height="500" loading="lazy"></figure>
+</section>
+</div> <nav class="cs-end" aria-label="More case studies"> <a href="/projects/#bloom">← All projects</a> <a href="/projects/mira/">Next: Mira →</a> </nav> <script>  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Boards, from HexPath.astro: Bloom's real 5-row honeycomb and a phone's QWERTY at the same width, each split between two thumbs.
+  const INK = { L: '#E8B85A', R: '#E9DCC0' };
+  const BLOOM = [
+    [['.', '', 'L'], ['p', '1', 'L'], ['y', '2', 'L'], ['f', '3', 'R'], ['c', '4', 'R'], ['?', '', 'R']],
+    [['a', '', 'L'], ['e', '', 'L'], ['u', '5', 'L'], ['d', '6', 'R'], ['g', '7', 'R'], ['r', '', 'R'], ['l', '', 'R']],
+    [['⇧', '', 'L'], ['o', '', 'L'], ['␣L', '', 'L'], ['i', '8', 'L'], ['h', '9', 'R'], ['␣R', '', 'R'], ['n', '', 'R'], ['⌫', '', 'R']],
+    [['q', '', 'L'], ['k', '-', 'L'], ['b', '', 'L'], ['w', '0', 'R'], ['z', '', 'R'], ['t', '`', 'R'], ['s', '', 'R']],
+    [['j', '', 'L'], ['x', '', 'L'], ['m', '', 'L'], ['v', '', 'R'], ['123', '', 'R'], ['↵', '', 'R']],
+  ];
+  const bloom = () => {
+    const W = 56, H = W * 2 / Math.sqrt(3), DY = H * 0.75;
+    const b = { shape: 'hex', cells: [], at: {}, seam: [], kh: H };
+    BLOOM.forEach((row, r) => {
+      const x0 = 240 - (row.length * W) / 2 + W / 2, y = 34 + r * DY;
+      row.forEach(([k, d, t], i) => { const c = { x: x0 + i * W, y, k, d, t, w: W }; b.cells.push(c); b.at[k] = c; });
+      const sx = x0 + (row.findIndex(([, , t]) => t === 'R') - 0.5) * W;
+      b.seam.push(`${sx.toFixed(1)},${(y - DY / 2).toFixed(1)}`, `${sx.toFixed(1)},${(y + DY / 2).toFixed(1)}`);
+    });
+    return b;
+  };
+  const qwerty = () => {
+    const W = 46, KH = 50, GAP = 10;
+    const rows = ['qwertyuiop', 'asdfghjkl', '⇧zxcvbnm⌫'];
+    const right = new Set([...'yuiophjklbnm⌫']);
+    const b = { shape: 'rect', cells: [], at: {}, seam: [], kh: KH };
+    rows.forEach((row, r) => {
+      const keys = [...row], y = 52 + r * (KH + GAP), x0 = 240 - (keys.length * W) / 2 + W / 2;
+      keys.forEach((k, i) => { const c = { x: x0 + i * W, y, k, d: '', t: right.has(k) ? 'R' : 'L', w: W }; b.cells.push(c); b.at[k] = c; });
+      const sx = x0 + (keys.findIndex((k) => right.has(k)) - 0.5) * W;
+      b.seam.push(`${sx},${y - (KH + GAP) / 2}`, `${sx},${y + (KH + GAP) / 2}`);
+    });
+    const y = 52 + 3 * (KH + GAP);
+    // One space bar on a phone; each thumb presses its own end of it.
+    const L = { x: 240, y, k: '␣L', d: '', t: 'L', w: 196 }, R = { x: 286, y, k: '␣R', d: '', t: 'R', w: 0, hide: true };
+    b.cells.push(L, R); b.at['␣L'] = L; b.at['␣R'] = R;
+    b.seam.push(`240,${y - (KH + GAP) / 2}`, `240,${y + KH / 2}`);
+    return b;
+  };
+  const BOARDS = { qwerty: qwerty(), bloom: bloom() };
+  const hex = (x, y, s) => [...Array(6)].map((_, i) => { const a = Math.PI / 180 * (60 * i - 90); return `${(x + s * Math.cos(a)).toFixed(1)},${(y + s * Math.sin(a)).toFixed(1)}`; }).join(' ');
+  // A space goes to the thumb that didn't type the letter before it.
+  const presses = (b, text) => {
+    const out = [];
+    for (const ch of text) {
+      if (ch === ' ') out.push(b.at[out.length && out[out.length - 1].t === 'L' ? '␣R' : '␣L']);
+      else if (b.at[ch]) out.push(b.at[ch]);
+    }
+    return out;
+  };
+  const render = (b, seq, upto, opt = {}) => {
+    const done = seq.slice(0, upto), now = done[done.length - 1];
+    let shapes = '', labels = '', paths = '';
+    for (const c of b.cells) {
+      const alias = c.k === '␣L' && b.shape === 'rect' ? [c, b.at['␣R']] : [c];
+      const lit = alias.some((x) => done.includes(x)), cur = now && alias.includes(now), space = c.k.startsWith('␣');
+      const ct = cur ? now.t : c.t;
+      if (c.hide) continue;
+      const fill = cur ? (ct === 'L' ? 'rgba(232,184,90,.24)' : 'rgba(233,220,192,.16)') : opt.ghost ? 'none' : ct === 'L' ? '#16120D' : '#110E0B';
+      const stroke = cur ? INK[ct] : lit ? (ct === 'L' ? '#A88340' : '#9C907A') : '#3E342A';
+      if (b.shape === 'hex') shapes += `<polygon points="${hex(c.x, c.y, b.kh / 2 - 3)}" fill="${fill}" stroke="${stroke}" stroke-width="${cur ? 1.8 : 1}"/>`;
+      else shapes += `<rect x="${c.x - c.w / 2 + 3}" y="${c.y - b.kh / 2}" width="${c.w - 6}" height="${b.kh}" rx="6" fill="${fill}" stroke="${stroke}" stroke-width="${cur ? 1.8 : 1}"/>`;
+      if (space) labels += `<rect x="${c.x - 10}" y="${c.y + 2}" width="20" height="2" rx="1" fill="${lit ? INK[ct] : '#5A4C3A'}"/>`;
+      else labels += `<text x="${c.x}" y="${c.y + 6}" text-anchor="middle" font-family="Lora, Georgia, serif" font-size="${c.k.length > 1 ? 11 : b.shape === 'hex' ? 18 : 16}" fill="${lit ? INK[ct] : opt.ghost ? '#4A3E30' : '#A88E62'}" paint-order="stroke" stroke="#120F0B" stroke-width="5">${c.k}</text>`;
+      if (c.d && !opt.ghost) labels += `<text x="${c.x + 12}" y="${c.y - 9}" text-anchor="middle" font-family="Lora, Georgia, serif" font-size="9" fill="#6E6048">${c.d}</text>`;
+    }
+    ['L', 'R'].forEach((t) => {
+      const pts = done.filter((c) => c.t === t);
+      const px = (c) => (c.k === '␣L' && b.shape === 'rect' ? 194 : c.x);
+      if (pts.length > 1) paths += `<polyline points="${pts.map((c) => `${px(c)},${c.y}`).join(' ')}" fill="none" stroke="${INK[t]}" stroke-width="1.5" ${t === 'R' ? 'stroke-dasharray="4 3"' : ''} stroke-linejoin="round" stroke-linecap="round" opacity=".6"/>`;
+      pts.forEach((c) => { paths += `<circle cx="${px(c)}" cy="${c.y + 16}" r="${c === now ? 2.6 : 1.8}" fill="${INK[t]}"/>`; });
+    });
+    const seam = opt.ghost ? '' : `<polyline points="${b.seam.join(' ')}" fill="none" stroke="#5A4C3A" stroke-width="1" stroke-dasharray="2 4"/>`;
+    const legend = opt.legend ? `<text x="24" y="284" font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1.2" fill="${INK.L}">LEFT THUMB</text><text x="456" y="284" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1.2" fill="${INK.R}">RIGHT THUMB</text>` : '';
+    return shapes + seam + paths + labels + legend;
+  };
+
+  // Hero: the board behind the title types its own name, key by key, the way Learn lights the next key.
+  (() => {
+    const svg = document.querySelector('[data-comb]'), b = BOARDS.bloom, seq = presses(b, 'bloom');
+    let i = 0;
+    const draw = () => { svg.innerHTML = render(b, seq, i, { ghost: true }); };
+    if (still) { i = seq.length; draw(); return; }
+    draw();
+    let t = null;
+    const tick = () => { i = i >= seq.length + 3 ? 0 : i + 1; draw(); t = setTimeout(tick, i === 0 ? 700 : 520); };
+    new IntersectionObserver(([e]) => { clearTimeout(t); if (e.isIntersecting) t = setTimeout(tick, 600); }).observe(svg);
+  })();
+
+  // The problem: scroll types "were was after" and drops each letter onto the lane of the thumb that types it.
+  // QWERTY piles letters onto one lane; Bloom zigzags. Each same-thumb repeat is marked and counted.
+  (() => {
+    const sec = document.querySelector('[data-duel]'), svg = sec.querySelector('[data-rhythm]'), PHRASE = 'test it here';
+    const rows = [['qwerty', 'QWERTY', 16], ['bloom', 'BLOOM', 116]].map(([id, name, y0]) => ({ id, name, y0, seq: presses(BOARDS[id], PHRASE), count: sec.querySelector(`[data-count="${id}"]`) }));
+    const typed = sec.querySelector('[data-typed]'), chars = [...PHRASE], n = chars.length;
+    const LANE = { L: 0, R: 40 };
+    let last = -1;
+    const draw = (upto, force) => {
+      if (upto === last && !force) return; last = upto;
+      // Narrow screens get a narrower drawing so the letters stay readable.
+      const narrow = innerWidth <= 860, W = narrow ? 500 : 760, X0 = narrow ? 70 : 150, DX = (W - 20 - X0) / (n - 1);
+      svg.setAttribute('viewBox', `0 0 ${W} 196`);
+      let g = '';
+      rows.forEach(({ name, y0, seq, count }) => {
+        const yL = y0 + LANE.L + 22, yR = y0 + LANE.R + 22;
+        g += `<text x="0" y="${y0 - 4}" font-family="JetBrains Mono, monospace" font-size="11" letter-spacing="1.6" fill="#BFB29C">${name}</text>`;
+        g += `<text x="0" y="${yL + 4}" font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1.2" fill="${INK.L}">${narrow ? 'LEFT' : 'LEFT THUMB'}</text><text x="0" y="${yR + 4}" font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1.2" fill="${INK.R}">${narrow ? 'RIGHT' : 'RIGHT THUMB'}</text>`;
+        g += `<line x1="${X0 - 24}" y1="${yL}" x2="${W}" y2="${yL}" stroke="#2A231B"/><line x1="${X0 - 24}" y1="${yR}" x2="${W}" y2="${yR}" stroke="#2A231B"/>`;
+        let reps = 0;
+        for (let i = 0; i < upto; i++) {
+          const t = seq[i].t, x = X0 + i * DX, y = t === 'L' ? yL : yR;
+          if (i > 0) {
+            const pt = seq[i - 1].t, px = X0 + (i - 1) * DX, py = pt === 'L' ? yL : yR;
+            const same = pt === t; if (same) reps++;
+            g += same ? `<line x1="${px + 12}" y1="${py}" x2="${x - 12}" y2="${y}" stroke="#D2694B" stroke-width="3" stroke-linecap="round"/>`
+                      : `<line x1="${px}" y1="${py}" x2="${x}" y2="${y}" stroke="#5A4C3A" stroke-width="1.2"/>`;
+          }
+          const ch = chars[i] === ' ' ? '␣' : chars[i], now = i === upto - 1;
+          g += `<circle cx="${x}" cy="${y}" r="12" fill="${now ? (t === 'L' ? 'rgba(232,184,90,.25)' : 'rgba(233,220,192,.18)') : '#16120D'}" stroke="${INK[t]}" stroke-width="${now ? 1.8 : 1}"/>`;
+          g += `<text x="${x}" y="${y + 5}" text-anchor="middle" font-family="Lora, Georgia, serif" font-size="14" fill="${INK[t]}">${ch}</text>`;
+        }
+        count.textContent = reps;
+      });
+      svg.innerHTML = g;
+      typed.innerHTML = `<em>${PHRASE.slice(0, upto).replace(/ /g, '␣')}</em>${PHRASE.slice(upto).replace(/ /g, '␣')}`;
+    };
+    const onScroll = () => {
+      const r = sec.getBoundingClientRect(), run = r.height - innerHeight;
+      const p = Math.max(0, Math.min(1, -r.top / (run * .85)));
+      draw(still ? n : Math.round(p * n));
+    };
+    addEventListener('scroll', onScroll, { passive: true }); addEventListener('resize', () => { last = -1; onScroll(); }); onScroll();
+  })();
+
+  // Tour: scroll is the playhead over one recording. Each step owns a stretch of it; the zoom follows the same clock.
+  (() => {
+    const sec = document.querySelector('[data-tour]'), steps = [...sec.querySelectorAll('.tstep')], scr = sec.querySelector('[data-scr]'), v = scr.querySelector('video');
+    const span = steps.map((s) => s.dataset.t.split(' ').map(Number)), END = span[span.length - 1][1];
+    // Each step is as tall as its stretch of the recording needs: fast typing gets more scroll per second than waiting.
+    const size = () => steps.forEach((s, i) => { const rate = +(s.dataset.rate || 40) * Math.min(1, innerHeight / 900); s.style.minHeight = `${Math.max(innerHeight * .8, (span[i][1] - span[i][0]) * rate)}px`; });
+    size();
+    // [time, zoom, x%, y%]. The app's text runs edge to edge, so the camera stays wide; the lesson is nudged up just
+    // past its header, which shows a scripted words-per-minute figure.
+    const K = [[0, 1, 50, 50], [105.5, 1, 50, 50], [106.5, 1.07, 50, 100], [END, 1.07, 50, 100]];
+    const ease = (u) => u < .5 ? 2 * u * u : 1 - (-2 * u + 2) ** 2 / 2;
+    const cam = (t) => {
+      const i = K.findIndex((k) => k[0] > t); if (i === -1) return K[K.length - 1]; if (i === 0) return K[0];
+      const [t0, ...a] = K[i - 1], [t1, ...b] = K[i], u = ease((t - t0) / (t1 - t0));
+      return [t, ...a.map((x, j) => x + (b[j] - x) * u)];
+    };
+    const zoom = ([, z, x, y]) => {
+      const w = scr.clientWidth, h = scr.clientHeight;
+      const tx = Math.min(0, Math.max(w - w * z, w / 2 - z * x / 100 * w)), ty = Math.min(0, Math.max(h - h * z, h / 2 - z * y / 100 * h));
+      v.style.transform = z === 1 ? 'none' : `translate(${tx}px, ${ty}px) scale(${z})`;
+    };
+    const target = () => {
+      const line = innerWidth > 860 ? innerHeight / 2 : innerHeight * .8;
+      let on = 0, t = 0;
+      steps.forEach((s, i) => {
+        const b = s.getBoundingClientRect();
+        if (line >= b.top) { on = i; const u = Math.min(1, (line - b.top) / b.height); t = span[i][0] + u * (span[i][1] - span[i][0]); }
+      });
+      steps.forEach((s, i) => s.classList.toggle('on', i === on));
+      return Math.min(t, END - 0.1);
+    };
+    let shown = 0, goal = 0, raf = 0;
+    const tick = () => {
+      shown += (goal - shown) * .22; if (Math.abs(goal - shown) < .01) shown = goal;
+      zoom(cam(shown));
+      if (v.readyState >= 1 && !v.seeking && Math.abs(v.currentTime - shown) > .03) v.currentTime = shown;
+      raf = shown === goal ? 0 : requestAnimationFrame(tick);
+    };
+    const onScroll = () => { goal = target(); if (!raf) raf = requestAnimationFrame(tick); };
+    const sync = () => { if (Math.abs(v.currentTime - shown) > .03) v.currentTime = shown; };
+    v.addEventListener('seeked', sync); v.addEventListener('loadedmetadata', sync);
+    new IntersectionObserver(([e]) => { if (e.isIntersecting && !v.src) { v.preload = 'auto'; v.src = v.dataset.src; } }, { rootMargin: '100% 0px' }).observe(sec);
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', () => { size(); onScroll(); });
+    onScroll();
+  })();
+
+  // Key decision: the permissions Bloom doesn't ask for get struck through as the list comes into view.
+  (() => {
+    const box = document.querySelector('[data-perms]');
+    if (still) { box.classList.add('on'); return; }
+    box.querySelectorAll('li.no code').forEach((c, i) => { c.style.setProperty('--d', `${i * 0.18}s`); });
+    new IntersectionObserver(([e], ob) => { if (e.isIntersecting) { box.classList.add('on'); ob.disconnect(); } }, { threshold: 0.6 }).observe(box);
+  })();
+</script>  <footer class="foot"> <a href="https://github.com/chirag3103">GITHUB</a> <a href="https://www.linkedin.com/in/agarwal-chirag">LINKEDIN</a> <span>AGARWALCHIRAG.COM</span> </footer> </body></html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html><html lang="en" style="--accent: var(--coral)"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Shruti · Chirag Agarwal</title><meta name="description" content="A raga companion for harmonium and Mohan veena, built for playing by ear: see a raga, hear it, and find out what you're playing. Fully offline."><link rel="canonical" href="https://agarwalchirag.com/projects/shruti/"><meta property="og:title" content="Shruti · Chirag Agarwal"><meta property="og:description" content="A raga companion for harmonium and Mohan veena, built for playing by ear: see a raga, hear it, and find out what you're playing. Fully offline."><meta name="theme-color" content="#1C1814"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&display=swap"><style>.cs-shruti {
+  --board: #14110E; --bg: #1C1814; --panel: #221C16; --ivory: #F2E8D8; --shuddha: #B4AA98; --komal: #8C8478; --faint: #4A443D;
+  --bronze: #8A6A44; --brass: #E0B47E; --coral: #C49080; --teal: #6ABFB0; --line: #3A3428; --muted: #A89880; --ghost: #6A5E52;
+  --serif: "Lora", Georgia, serif; --mono: "JetBrains Mono", ui-monospace, monospace; --deva: "Tiro Devanagari Hindi", serif;
+  --gutter: clamp(18px, 5vw, 72px);
+}
+.cs-shruti * { box-sizing: border-box; }
+.cs-shruti { -webkit-text-size-adjust: 100%; }
+.cs-shruti { margin: 0; background: var(--bg); color: var(--ivory); font-family: var(--serif); font-size: 17px; line-height: 1.65; }
+.cs-shruti img { max-width: 100%; display: block; }
+.cs-shruti .k { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ghost); }
+.cs-shruti h1, .cs-shruti h2, .cs-shruti h3 { font-weight: 500; font-style: italic; margin: 0; text-wrap: balance; }
+.cs-shruti p { margin: 0; }
+
+/* Direction switcher */
+.cs-shruti .switch { position: sticky; top: 0; z-index: 50; display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; padding: 12px var(--gutter); background: rgba(20,17,14,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.cs-shruti .switch .k { color: var(--muted); }
+.cs-shruti .switch button { all: unset; cursor: pointer; font-style: italic; font-size: 15px; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 4px 14px; }
+.cs-shruti .switch button[aria-pressed="true"] { color: var(--ivory); border-color: var(--coral); background: rgba(196,144,128,.12); }
+.cs-shruti .switch small { font-family: var(--mono); font-size: 11px; color: var(--ghost); }
+.cs-shruti .dir { display: none; }
+.cs-shruti .dir.on { display: block; }
+
+/* Shared: a landscape phone */
+.cs-shruti .phone { position: relative; border-radius: clamp(18px, 2.4vw, 38px); padding: clamp(6px, .8vw, 12px); background: #050403; box-shadow: 0 40px 120px -30px rgba(0,0,0,.8), 0 0 0 1px #2A241E, inset 0 0 0 1px #1A1612; }
+.cs-shruti .phone img { border-radius: clamp(12px, 1.7vw, 28px); }
+.cs-shruti .glow { position: absolute; inset: -20% -10%; background: radial-gradient(closest-side, rgba(242,232,216,.10), transparent); z-index: -1; pointer-events: none; }
+
+/* ============ A · THE APP'S CANVAS ============ */
+.cs-shruti #A { background: var(--board); position: relative; overflow: hidden; }
+.cs-shruti #A .strings { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; transition: opacity .3s; }
+.cs-shruti #A.on .strings { opacity: 1; }
+.cs-shruti #A > section { position: relative; z-index: 1; }
+.cs-shruti .a-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: 40px; align-items: center; padding: clamp(48px, 8vw, 120px) 0 clamp(48px, 6vw, 90px) var(--gutter); min-height: 88vh; }
+.cs-shruti .a-hero h1 { font-size: clamp(64px, 10vw, 150px); line-height: .95; }
+.cs-shruti .a-hero .tag { font-style: italic; font-size: clamp(20px, 2vw, 28px); color: var(--shuddha); margin-top: 18px; }
+.cs-shruti .a-hero .lede { margin-top: 28px; max-width: 34ch; color: var(--shuddha); font-size: 18px; }
+.cs-shruti .a-hero .facts { display: flex; flex-wrap: wrap; gap: 14px 32px; margin-top: 36px; }
+.cs-shruti .a-hero .facts div { display: grid; gap: 2px; }
+.cs-shruti .a-hero .facts b { font-weight: 400; font-style: italic; font-size: 16px; }
+.cs-shruti .a-hero .icons { display: flex; gap: 14px; align-items: end; margin-bottom: 26px; }
+.cs-shruti .a-hero .icons img { width: 64px; border-radius: 15px; }
+.cs-shruti .a-hero .icons img + img { width: 44px; border-radius: 11px; opacity: .9; }
+.cs-shruti .a-hero .icons span { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--ghost); }
+.cs-shruti .a-hero .device { position: relative; margin-right: calc(-1 * clamp(40px, 8vw, 160px)); }
+.cs-shruti .a-band { padding: clamp(60px, 8vw, 120px) var(--gutter); }
+.cs-shruti .a-two { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 24px clamp(32px, 6vw, 100px); }
+.cs-shruti .a-two h2 { font-size: clamp(30px, 3.4vw, 48px); line-height: 1.12; }
+.cs-shruti .a-cols { columns: 2 22ch; column-gap: 48px; color: var(--shuddha); }
+.cs-shruti .a-cols p + p { margin-top: 16px; }
+.cs-shruti .a-feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 48px; }
+.cs-shruti .a-feat { display: grid; gap: 14px; align-content: start; }
+.cs-shruti .crop { position: relative; aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: #0A0807; box-shadow: 0 0 0 1px #2A241E, 0 30px 60px -30px rgba(0,0,0,.8); }
+.cs-shruti .crop img { position: absolute; max-width: none; width: var(--w); left: var(--x); top: var(--y); }
+.cs-shruti .a-feat h3 { font-size: 22px; }
+.cs-shruti .a-feat p { color: var(--shuddha); font-size: 15.5px; }
+.cs-shruti .a-decision { position: relative; min-height: 80vh; display: grid; align-items: end; padding: 0 var(--gutter) clamp(48px, 6vw, 90px); overflow: hidden; }
+.cs-shruti .a-decision .zoom { position: absolute; inset: 0; }
+.cs-shruti .a-decision .zoom img { position: absolute; max-width: none; width: 340%; left: -150%; top: -3%; opacity: .9; }
+.cs-shruti .a-decision .zoom::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(20,17,14,.97) 0%, rgba(20,17,14,.86) 38%, rgba(20,17,14,.2) 70%, transparent), linear-gradient(0deg, rgba(20,17,14,.9), transparent 40%); }
+.cs-shruti .a-decision .text { position: relative; max-width: 520px; display: grid; gap: 18px; }
+.cs-shruti .a-decision h2 { font-size: clamp(32px, 3.6vw, 52px); line-height: 1.1; }
+.cs-shruti .a-decision p { color: var(--shuddha); }
+.cs-shruti .a-timeline { position: relative; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 56px; padding-top: 40px; }
+.cs-shruti .a-timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 18px; height: 2px; background: linear-gradient(90deg, var(--brass), var(--bronze)); opacity: .7; }
+.cs-shruti .a-timeline div { position: relative; display: grid; gap: 8px; }
+.cs-shruti .a-timeline div::before { content: ""; position: absolute; top: -34px; left: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--board); border: 1.6px solid var(--shuddha); }
+.cs-shruti .a-timeline div:first-child::before { border-width: 2.4px; border-color: var(--ivory); }
+.cs-shruti .a-timeline b { font-weight: 400; font-style: italic; font-size: 20px; }
+.cs-shruti .a-timeline p { color: var(--shuddha); font-size: 15px; }
+.cs-shruti .a-next { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px clamp(32px, 6vw, 100px); align-items: center; }
+.cs-shruti .a-next .stack { position: relative; height: clamp(220px, 26vw, 380px); }
+.cs-shruti .a-next .stack .phone { position: absolute; width: 78%; }
+.cs-shruti .a-next .stack .phone:nth-child(1) { right: 0; top: 0; transform: rotate(2deg); }
+.cs-shruti .a-next .stack .phone:nth-child(2) { left: 0; bottom: 0; transform: rotate(-3deg); }
+
+/* ============ B · EDITORIAL SPREAD ============ */
+.cs-shruti #B { position: relative; overflow: hidden; }
+.cs-shruti .b-hero { position: relative; padding: clamp(60px, 9vw, 140px) var(--gutter) 40px; min-height: 80vh; display: grid; align-content: end; }
+.cs-shruti .b-hero .wm { position: absolute; right: -4vw; top: -6vw; font-family: var(--deva); font-size: clamp(260px, 42vw, 680px); line-height: 1; color: transparent; -webkit-text-stroke: 1.2px rgba(224,180,126,.18); pointer-events: none; user-select: none; }
+.cs-shruti .b-hero h1 { font-size: clamp(72px, 12vw, 180px); line-height: .9; position: relative; }
+.cs-shruti .b-hero .sub { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 32px; margin-top: 36px; position: relative; }
+.cs-shruti .b-hero .lede { font-size: clamp(20px, 1.9vw, 26px); line-height: 1.5; max-width: 30ch; }
+.cs-shruti .b-hero .meta { display: grid; gap: 14px; align-content: end; justify-items: start; }
+.cs-shruti .b-hero .icons { display: flex; gap: 12px; align-items: end; }
+.cs-shruti .b-hero .icons img { width: 72px; border-radius: 17px; box-shadow: 0 16px 40px -16px rgba(0,0,0,.8); }
+.cs-shruti .b-hero .icons img + img { width: 52px; border-radius: 12px; }
+.cs-shruti .b-bleed { margin: 40px 0; position: relative; }
+.cs-shruti .b-bleed .phone { margin: 0 calc(var(--gutter) * .6); }
+.cs-shruti .b-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr); gap: 32px clamp(28px, 4vw, 64px); padding: clamp(40px, 6vw, 90px) var(--gutter); }
+.cs-shruti .b-grid h2 { grid-column: 1; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.15; }
+.cs-shruti .b-grid .body { grid-column: 2; display: grid; gap: 18px; color: var(--shuddha); font-size: 18px; }
+.cs-shruti .b-grid .body strong { color: var(--ivory); font-weight: 500; }
+.cs-shruti .b-grid .margin { grid-column: 3; font-size: 13.5px; color: var(--muted); display: grid; gap: 14px; align-content: start; border-left: 1px solid var(--line); padding-left: 18px; }
+.cs-shruti .b-pull { padding: clamp(40px, 6vw, 90px) var(--gutter); display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 10fr); }
+.cs-shruti .b-pull blockquote { grid-column: 2; margin: 0; font-style: italic; font-size: clamp(30px, 4.2vw, 64px); line-height: 1.15; max-width: 22ch; }
+.cs-shruti .b-pull blockquote span { color: var(--brass); }
+.cs-shruti .b-offset { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: center; padding: 20px 0 20px var(--gutter); }
+.cs-shruti .b-offset .phone { margin-right: calc(-1 * clamp(40px, 6vw, 120px)); }
+.cs-shruti .b-offset .cap { display: grid; gap: 12px; }
+.cs-shruti .b-offset .cap p { color: var(--shuddha); }
+.cs-shruti .b-offset .cap h3 { font-size: 26px; }
+.cs-shruti .b-inset { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px; align-items: center; padding: 20px var(--gutter) 20px 0; }
+.cs-shruti .b-inset .phone { margin-left: calc(-1 * clamp(40px, 6vw, 120px)); }
+
+/* ============ C · ZOOM (one device, guided by scroll) ============ */
+.cs-shruti #C { background: radial-gradient(1200px 600px at 70% 20%, #231C15, var(--board)); }
+.cs-shruti .c-hero { padding: clamp(60px, 8vw, 120px) var(--gutter) 20px; display: grid; justify-items: center; text-align: center; gap: 18px; }
+.cs-shruti .c-hero .icons { display: flex; gap: 12px; align-items: end; }
+.cs-shruti .c-hero .icons img { width: 76px; border-radius: 18px; }
+.cs-shruti .c-hero .icons img + img { width: 52px; border-radius: 12px; }
+.cs-shruti .c-hero h1 { font-size: clamp(64px, 10vw, 150px); line-height: .95; }
+.cs-shruti .c-hero .tag { font-style: italic; color: var(--shuddha); font-size: clamp(18px, 1.8vw, 24px); }
+.cs-shruti .c-tour { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 0 clamp(28px, 4vw, 64px); padding: 20px var(--gutter) 120px; }
+.cs-shruti .c-stage { position: sticky; top: 12vh; height: 76vh; display: grid; align-items: center; }
+.cs-shruti .c-frame { position: relative; aspect-ratio: 2376 / 970; overflow: hidden; border-radius: clamp(12px, 1.7vw, 28px); background: #050403; }
+.cs-shruti .c-frame img { position: absolute; left: 0; top: 0; width: 100%; max-width: none; transform-origin: 0 0; transition: transform .9s cubic-bezier(.2,.7,.2,1), opacity .5s; opacity: 0; }
+.cs-shruti .c-frame img.show { opacity: 1; }
+.cs-shruti .c-ring { position: absolute; border: 1.5px solid var(--brass); border-radius: 50%; pointer-events: none; opacity: 0; transition: opacity .4s .5s, left .9s, top .9s, width .9s, height .9s; box-shadow: 0 0 0 9999px rgba(10,8,6,.0); }
+.cs-shruti .c-steps { display: grid; }
+.cs-shruti .c-step { min-height: 78vh; display: grid; align-content: center; gap: 14px; opacity: .25; transition: opacity .4s; }
+.cs-shruti .c-step.on { opacity: 1; }
+.cs-shruti .c-step h2 { font-size: clamp(26px, 2.6vw, 38px); line-height: 1.15; }
+.cs-shruti .c-step p { color: var(--shuddha); font-size: 17.5px; }
+.cs-shruti .c-step .k { color: var(--brass); }
+.cs-shruti .c-rest { padding: 0 var(--gutter) 100px; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px clamp(32px, 6vw, 100px); }
+.cs-shruti .c-rest h2 { font-size: clamp(28px, 3vw, 42px); }
+.cs-shruti .c-rest .t { color: var(--shuddha); display: grid; gap: 16px; }
+
+/* ============ D · COMBO: B's words and landing on A's canvas, guided zoom where it earns it ============ */
+.cs-shruti #D { background: var(--board); position: relative; overflow: clip; }
+.cs-shruti #D .strings { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: 0; }
+.cs-shruti #D.on .strings { opacity: 1; }
+.cs-shruti #D > section { position: relative; z-index: 1; }
+.cs-shruti .d-hero { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px clamp(32px, 4vw, 64px); align-items: center; padding: clamp(56px, 8vw, 120px) var(--gutter) clamp(56px, 7vw, 100px); min-height: 90vh; }
+.cs-shruti .d-hero .wm { position: absolute; left: -3vw; top: -4vw; font-family: var(--deva); font-size: clamp(300px, 46vw, 760px); line-height: 1; color: transparent; -webkit-text-stroke: 1.2px rgba(224,180,126,.16); pointer-events: none; user-select: none; z-index: -1; }
+.cs-shruti .d-hero h1 { font-size: clamp(72px, 10.5vw, 160px); line-height: .92; }
+.cs-shruti .d-hero .lede { font-size: clamp(19px, 1.7vw, 24px); line-height: 1.5; max-width: 30ch; margin-top: 26px; }
+.cs-shruti .d-hero .tag { font-style: italic; color: var(--shuddha); font-size: clamp(18px, 1.6vw, 22px); margin-top: 14px; }
+.cs-shruti .d-icons { display: flex; gap: 18px; align-items: end; margin-bottom: 30px; }
+.cs-shruti .d-icons figure { margin: 0; display: grid; gap: 6px; justify-items: center; }
+.cs-shruti .d-icons img { width: 68px; border-radius: 16px; box-shadow: 0 14px 30px -14px rgba(0,0,0,.9); }
+.cs-shruti .d-icons figure + figure img { width: 50px; border-radius: 12px; }
+.cs-shruti .d-icons figcaption { font-family: var(--mono); font-size: 9.5px; letter-spacing: .12em; color: var(--ghost); }
+.cs-shruti .d-facts { display: flex; flex-wrap: wrap; gap: 14px 30px; margin-top: 30px; }
+.cs-shruti .d-facts div { display: grid; gap: 2px; }
+.cs-shruti .d-facts b { font-weight: 400; font-style: italic; }
+.cs-shruti .d-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr); gap: 28px clamp(28px, 4vw, 64px); padding: clamp(48px, 6vw, 96px) var(--gutter); }
+.cs-shruti .d-grid h2 { font-size: clamp(28px, 2.8vw, 40px); line-height: 1.12; }
+.cs-shruti .d-grid .body { display: grid; gap: 18px; color: var(--shuddha); font-size: 18px; align-content: start; }
+.cs-shruti .d-grid .body strong { color: var(--ivory); font-weight: 500; }
+.cs-shruti .d-grid .margin { font-size: 13.5px; color: var(--muted); display: grid; gap: 12px; align-content: start; border-left: 1px solid var(--line); padding-left: 18px; }
+.cs-shruti .d-pull { padding: clamp(40px, 6vw, 90px) var(--gutter); }
+.cs-shruti .d-pull blockquote { margin: 0 0 0 16.6%; font-style: italic; font-size: clamp(30px, 4.2vw, 62px); line-height: 1.15; max-width: 22ch; }
+.cs-shruti .d-pull blockquote span { color: var(--brass); }
+/* evolution strip */
+.cs-shruti .d-evo { padding: 0 var(--gutter) clamp(30px, 4vw, 60px); }
+.cs-shruti .d-evo .rail { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.cs-shruti .d-evo figure { margin: 0; display: grid; gap: 10px; }
+.cs-shruti .d-evo figure img { border-radius: 10px; box-shadow: 0 0 0 1px #2A241E; }
+.cs-shruti .d-evo figure.final img { box-shadow: 0 0 0 1.5px var(--brass), 0 20px 50px -20px rgba(224,180,126,.35); }
+.cs-shruti .d-evo figcaption { display: grid; gap: 2px; }
+.cs-shruti .d-evo figcaption b { font-weight: 400; font-style: italic; font-size: 15.5px; }
+.cs-shruti .d-evo figcaption span { font-size: 13px; color: var(--muted); line-height: 1.45; }
+.cs-shruti .d-evo .arrow { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; color: var(--ghost); margin-bottom: 14px; }
+/* legend explorer */
+.cs-shruti .d-legend { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px clamp(28px, 4vw, 64px); padding: clamp(30px, 4vw, 60px) var(--gutter) clamp(48px, 6vw, 96px); align-items: center; }
+.cs-shruti .d-legend ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.cs-shruti .d-legend li button { all: unset; box-sizing: border-box; --dwell: 2600ms; cursor: pointer; width: 100%; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 2px 14px; align-items: center; padding: 12px 14px; border-radius: 10px; }
+.cs-shruti .d-legend li button:hover, .cs-shruti .d-legend li button[aria-pressed="true"] { background: rgba(242,232,216,.06); box-shadow: inset 0 0 0 1px var(--line); }
+.cs-shruti .d-legend li button:focus-visible { outline: 1px solid var(--brass); }
+.cs-shruti .d-legend li svg { grid-row: span 2; width: 40px; height: 40px; }
+.cs-shruti .d-legend li b { font-weight: 400; font-style: italic; font-size: 17px; }
+.cs-shruti .d-legend li span { font-size: 14px; color: var(--muted); line-height: 1.45; }
+.cs-shruti .d-legend li button { position: relative; overflow: hidden; }
+.cs-shruti .d-legend li button::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 0; height: 1.5px; background: var(--brass); transform: scaleX(0); transform-origin: left; opacity: 0; }
+.cs-shruti .d-legend li button.playing::after { opacity: .9; animation: legendfill var(--dwell, 2600ms) linear forwards; }
+@keyframes legendfill { to { transform: scaleX(1); } }
+.cs-shruti .d-legend .hint { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; color: var(--ghost); margin: 6px 0 14px; transition: opacity .4s; }
+.cs-shruti .d-legend.touched .hint { opacity: 0; }
+.cs-shruti .d-legend .payoff { margin-top: 22px; font-size: 19px; line-height: 1.5; max-width: 34ch; }
+.cs-shruti .d-legend .payoff em { color: var(--brass); font-style: italic; }
+.cs-shruti .zoomframe { position: relative; aspect-ratio: 2376 / 970; overflow: hidden; border-radius: clamp(12px, 1.7vw, 28px); background: #050403; }
+.cs-shruti .zoomframe img { position: absolute; left: 0; top: 0; width: 100%; max-width: none; transform-origin: 0 0; transition: transform .9s cubic-bezier(.2,.7,.2,1), opacity .5s; }
+.cs-shruti .zoomframe img.hide { opacity: 0; }
+/* guided zoom (scoped to one section) */
+.cs-shruti .d-tour { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 0 clamp(28px, 4vw, 64px); padding: 0 var(--gutter); }
+.cs-shruti .d-tour .stage { position: sticky; top: 14vh; height: 72vh; display: grid; align-items: center; grid-column: 2; grid-row: 1; }
+.cs-shruti .d-tour .steps { grid-column: 1; grid-row: 1; }
+.cs-shruti .d-tour .intro { padding-top: 10vh; display: grid; gap: 12px; }
+.cs-shruti .d-tour .intro h2 { font-size: clamp(30px, 3.2vw, 46px); line-height: 1.1; }
+.cs-shruti .d-step { min-height: 62vh; display: grid; align-content: center; gap: 10px; opacity: .22; transition: opacity .4s; }
+.cs-shruti .d-step.on { opacity: 1; }
+.cs-shruti .d-step h3 { font-size: clamp(22px, 2vw, 28px); }
+.cs-shruti .d-step p { color: var(--shuddha); }
+.cs-shruti .d-step .k { color: var(--brass); }
+/* uncut phones, side by side with text */
+.cs-shruti .d-pair { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 40px clamp(32px, 4vw, 64px); align-items: center; padding: clamp(40px, 6vw, 90px) var(--gutter); }
+.cs-shruti .d-pair .cap { display: grid; gap: 12px; }
+.cs-shruti .d-pair .cap h2 { font-size: clamp(28px, 2.8vw, 40px); }
+.cs-shruti .d-pair .cap p { color: var(--shuddha); }
+.cs-shruti .d-band { padding: clamp(48px, 6vw, 96px) var(--gutter); }
+@supports (animation-timeline: view()) { @media (prefers-reduced-motion: no-preference) {
+  .cs-shruti #D .rise { animation: rise linear both; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+  @keyframes rise { from { opacity: .2; transform: translateY(28px); } }
+} }
+@media (max-width: 860px) {
+  .cs-shruti .d-hero, .cs-shruti .d-grid, .cs-shruti .d-legend, .cs-shruti .d-tour, .cs-shruti .d-pair { grid-template-columns: 1fr; }
+  .cs-shruti .d-grid .margin { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); padding-top: 14px; }
+  .cs-shruti .d-pull blockquote { margin-left: 0; }
+  .cs-shruti .d-evo .rail { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 72%; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .cs-shruti .d-evo figure { scroll-snap-align: start; }
+  .cs-shruti .d-tour .stage { grid-column: 1; top: 52px; height: auto; padding: 10px 0; background: var(--board); z-index: 2; }
+  .cs-shruti .d-tour .steps { grid-row: 2; }
+  .cs-shruti .d-step { min-height: 46vh; }
+}
+
+.cs-shruti .d-hero { grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); min-height: 82vh; }
+.cs-shruti .d-hero .d-icons { align-self: end; justify-content: flex-start; align-items: end; gap: clamp(20px, 3vw, 48px); margin: 0 0 0 -4vw; }
+.cs-shruti .d-hero .d-icons img { width: clamp(150px, 17vw, 260px); border-radius: 22%; box-shadow: 0 40px 80px -30px rgba(0,0,0,.95), 0 0 0 1px rgba(224,180,126,.12); }
+.cs-shruti .d-hero .d-icons figure + figure img { width: clamp(110px, 12vw, 184px); }
+.cs-shruti .d-hero .d-icons figure { gap: 14px; }
+.cs-shruti .d-hero .d-icons figcaption { font-size: 11px; }
+@media (max-width: 860px) { .cs-shruti .d-hero { grid-template-columns: 1fr; } .cs-shruti .d-hero .d-icons { justify-content: start; margin-left: 0; } .cs-shruti .d-hero .d-icons img { width: 120px; } .cs-shruti .d-hero .d-icons figure + figure img { width: 88px; } }
+.cs-shruti .d-hero .wm { left: auto; right: -2vw; top: 0; transform: translateY(-9%); font-size: clamp(320px, 48vw, 800px); -webkit-text-stroke: 1.2px rgba(224,180,126,.2); }
+.cs-shruti .d-hero-text { max-width: 640px; }
+/* Hero: the dev build overlaps the app icon's corner */
+.cs-shruti .d-hero .d-icons figure + figure { position: relative; z-index: 1; margin-left: calc(-1 * clamp(56px, 6vw, 92px)); margin-bottom: clamp(-34px, -2.4vw, -18px); }
+.cs-shruti .d-hero .d-icons figure + figure img { box-shadow: 0 0 0 6px var(--board), 0 24px 50px -18px rgba(0,0,0,.95); }
+@media (max-width: 860px) { .cs-shruti .d-hero .d-icons figure + figure { margin-left: -36px; margin-bottom: -14px; } }
+.cs-shruti .d-inst { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 32px clamp(32px, 5vw, 88px); align-items: center; padding: clamp(40px, 6vw, 90px) var(--gutter); }
+.cs-shruti .d-inst .txt { display: grid; gap: 16px; }
+.cs-shruti .d-inst h2 { font-size: clamp(30px, 3.2vw, 46px); line-height: 1.1; }
+.cs-shruti .d-inst p { color: var(--shuddha); font-size: 17.5px; }
+.cs-shruti .d-inst strong { color: var(--ivory); font-weight: 500; }
+.cs-shruti .mini { margin: 8px 0 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; border-top: 1px solid var(--line); padding-top: 14px; }
+.cs-shruti .mini dt { font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ghost); }
+.cs-shruti .mini dd { margin: 2px 0 0; font-style: italic; font-size: 15px; }
+.cs-shruti .veena { margin: 0; display: grid; gap: 10px; }
+.cs-shruti .veena svg { width: 100%; height: auto; }
+.cs-shruti .veena figcaption { font-family: var(--mono); font-size: 11px; letter-spacing: .06em; color: var(--ghost); }
+.cs-shruti .d-reveal { position: relative; padding: 0 var(--gutter) clamp(40px, 6vw, 90px); display: grid; gap: 14px; justify-items: center; }
+.cs-shruti .d-reveal .phone { width: min(1180px, 100%); }
+.cs-shruti .octaves { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; max-width: 920px; margin-left: 25%; }
+.cs-shruti .oct { display: grid; gap: 8px; justify-items: center; padding: 14px 8px 12px; border-radius: 10px; }
+.cs-shruti .oct.final { box-shadow: inset 0 0 0 1px rgba(224,180,126,.35); }
+.cs-shruti .oct svg { width: 100%; max-width: 150px; height: auto; }
+.cs-shruti .oct .lab { display: grid; gap: 1px; justify-items: center; text-align: center; }
+.cs-shruti .oct .lab .k { color: var(--ghost); font-size: 9.5px; }
+.cs-shruti .oct.final .lab .k { color: var(--brass); }
+.cs-shruti .oct .lab b { font-weight: 400; font-style: italic; font-size: 14px; color: var(--shuddha); }
+.cs-shruti .oct.final .lab b { color: var(--ivory); }
+@media (max-width: 860px) { .cs-shruti .d-inst { grid-template-columns: 1fr; } .cs-shruti .octaves { margin-left: 0; grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 38%; overflow-x: auto; } }
+
+.cs-shruti .note { margin: 0 var(--gutter); padding: 18px 0 60px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; letter-spacing: .04em; color: var(--ghost); }
+
+@media (max-width: 860px) {
+  .cs-shruti .a-hero, .cs-shruti .a-two, .cs-shruti .a-next, .cs-shruti .b-hero .sub, .cs-shruti .b-offset, .cs-shruti .b-inset, .cs-shruti .c-tour, .cs-shruti .c-rest { grid-template-columns: 1fr; }
+  .cs-shruti .a-hero { padding-right: var(--gutter); min-height: 0; }
+  .cs-shruti .a-hero .device, .cs-shruti .b-offset .phone, .cs-shruti .b-inset .phone { margin: 0; }
+  .cs-shruti .b-offset, .cs-shruti .b-inset { padding: 20px var(--gutter); }
+  .cs-shruti .a-feats { grid-template-columns: 1fr; }
+  .cs-shruti .a-timeline { grid-template-columns: 1fr 1fr; row-gap: 56px; }
+  .cs-shruti .b-grid { grid-template-columns: 1fr; }
+  .cs-shruti .b-grid h2, .cs-shruti .b-grid .body, .cs-shruti .b-grid .margin { grid-column: 1; }
+  .cs-shruti .b-pull { grid-template-columns: 1fr; } .cs-shruti .b-pull blockquote { grid-column: 1; }
+  .cs-shruti .c-stage { top: 56px; height: auto; padding: 12px 0; background: var(--board); z-index: 2; }
+  .cs-shruti .c-step { min-height: 60vh; }
+}
+</style> <link rel="stylesheet" href="/_astro/index.ByanwA_w.css"></head> <body> <header class="bar"> <a class="me" href="/">CHIRAG AGARWAL</a> <nav> <a href="/notes/" data-chapter="notes">Notes</a><a href="/projects/" data-chapter="projects" aria-current="page">Projects</a><a href="/work/" data-chapter="work">Work</a> </nav> </header>   <div class="cs cs-shruti cs-theme-dark"><main class="dir on" id="D">
+  <svg class="strings" aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 100 100">
+    <g stroke="#8A6A44" stroke-width=".12" opacity=".2"><line x1="0" y1="28" x2="100" y2="28"/><line x1="0" y1="52" x2="100" y2="52"/></g>
+    <line x1="0" y1="76" x2="100" y2="76" stroke="#E0B47E" stroke-width=".18" opacity=".2"/>
+    <g stroke="#5C5349" stroke-width=".06" opacity=".3"><line x1="9" y1="0" x2="9" y2="100"/><line x1="21" y1="0" x2="21" y2="100"/><line x1="32" y1="0" x2="32" y2="100"/><line x1="42" y1="0" x2="42" y2="100"/><line x1="51.5" y1="0" x2="51.5" y2="100"/><line x1="60" y1="0" x2="60" y2="100"/><line x1="68" y1="0" x2="68" y2="100"/><line x1="75.5" y1="0" x2="75.5" y2="100"/><line x1="82.5" y1="0" x2="82.5" y2="100"/><line x1="89" y1="0" x2="89" y2="100"/><line x1="95" y1="0" x2="95" y2="100"/></g>
+  </svg>
+
+  <section class="d-hero">
+    <div class="wm" aria-hidden="true">सा</div>
+    <div class="d-hero-text">
+      <span class="k">Case study · since 2023</span>
+      <h1>Shruti</h1>
+      <p class="tag">Ragas for harmonium and Mohan veena</p>
+      <p class="lede">For someone who plays by ear and wants to see what he's hearing: a raga's notes on a harmonium's keys and across the neck of a Mohan veena.</p>
+      <div class="d-facts"><div><span class="k">Ragas</span><b>47 · 4 on Google Play</b></div><div><span class="k">Runs</span><b>Fully offline</b></div></div>
+    </div>
+    <div class="d-icons"><figure><img src="/case/shruti/shruti.png" alt="Shruti app icon"><figcaption>APP</figcaption></figure><figure><img src="/case/shruti/shruti-dev.png" alt="Shruti Dev icon"><figcaption>DEV BUILD</figcaption></figure></div>
+  </section>
+
+  <section class="d-inst rise">
+    <div class="txt">
+      <span class="k">The instrument</span>
+      <h2>Eight strings. Three that sing.</h2>
+      <p>A Mohan veena is a slide guitar adapted for Indian classical music: <strong>three main strings</strong> that carry the melody, three rhythm strings (chikari) and two drones. Shruti maps each raga across the full neck of the three main strings; the others stay hidden until you switch them on.</p>
+      <p>Each raga comes with its ascending and descending lines, its two most important notes, and its mood and time of day. Touch any note and it plays at that exact pitch.</p>
+      <dl class="mini"><div><dt>In the Play version</dt><dd>Yaman, Bhupali, Bhairav, Malkauns</dd></div><div><dt>Runs</dt><dd>Fully offline, no internet permission</dd></div></dl>
+    </div>
+    <figure class="veena" aria-label="The Mohan veena's eight strings: three main strings lit on top, then three chikari and two drone strings faint below">
+      <svg viewBox="-60 4 700 276" role="img">
+        <defs><linearGradient id="nut" x1="0" x2="1"><stop offset="0" stop-color="#E9DCC0"/><stop offset="1" stop-color="#8A7C6A"/></linearGradient></defs>
+        <g stroke="#3A342F" stroke-width="1">
+          <line x1="96" y1="24" x2="96" y2="262"/><line x1="176" y1="24" x2="176" y2="262"/><line x1="250" y1="24" x2="250" y2="262"/><line x1="318" y1="24" x2="318" y2="262"/><line x1="380" y1="24" x2="380" y2="262"/><line x1="437" y1="24" x2="437" y2="262"/><line x1="489" y1="24" x2="489" y2="262"/><line x1="537" y1="24" x2="537" y2="262"/><line x1="581" y1="24" x2="581" y2="262"/><line x1="621" y1="24" x2="621" y2="262"/>
+        </g>
+        <rect x="40" y="20" width="5" height="246" rx="2" fill="url(#nut)"/>
+        <g font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1" fill="#6A5E52">
+          <text x="-58" y="100">MAIN</text><text x="-58" y="204">CHIKARI</text><text x="-58" y="245">DRONE</text>
+        </g>
+        <g stroke-linecap="round">
+          <line x1="45" y1="44" x2="640" y2="44" stroke="#B08A5A" stroke-width="1.3"/>
+          <line x1="45" y1="96" x2="640" y2="96" stroke="#B08A5A" stroke-width="1.7"/>
+          <line x1="45" y1="148" x2="640" y2="148" stroke="#E0B47E" stroke-width="2.2"/>
+        </g>
+        <g stroke="#5A5249" stroke-width=".9" opacity=".7"><line x1="45" y1="186" x2="640" y2="186"/><line x1="45" y1="200" x2="640" y2="200"/><line x1="45" y1="214" x2="640" y2="214"/></g>
+        <g stroke="#5A5249" stroke-width="1.1" opacity=".7"><line x1="45" y1="234" x2="640" y2="234"/><line x1="45" y1="248" x2="640" y2="248"/></g>
+        <g font-family="Lora, Georgia, serif" font-size="12" fill="#F2E8D8">
+          <g fill="#14110E" stroke="#B4AA98" stroke-width="1.3"><circle cx="136" cy="148" r="12"/><circle cx="284" cy="148" r="12"/><circle cx="408" cy="96" r="12"/><circle cx="213" cy="44" r="12"/><circle cx="513" cy="44" r="12"/></g>
+          <g fill="#14110E" stroke="#F2E8D8" stroke-width="2.2"><circle cx="45" cy="148" r="12"/><circle cx="349" cy="44" r="12"/></g>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="9.5" letter-spacing="1" fill="#E0B47E"><text x="600" y="140" text-anchor="end">SA STRING</text></g>
+      </svg>
+      <figcaption>Three main strings lit; chikari and drones stay quiet until you want them.</figcaption>
+    </figure>
+  </section>
+
+  <section class="d-pull rise"><blockquote>Every feature in Shruti is <span>a gap I hit while practising.</span></blockquote></section>
+  <section class="d-legend rise">
+    <div>
+      <span class="k">Learn the legend once</span>
+      <p class="hint">PLAYS ON ITS OWN · HOVER OR TAP TO TAKE OVER</p>
+      <ul data-legend>
+        <li><button type="button" data-x="278" data-y="815" data-z="3"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="22" r="12" fill="none" stroke="#F2E8D8" stroke-width="2.4"/><text x="20" y="26" text-anchor="middle" font-family="Lora" font-size="10" fill="#F2E8D8">Sa</text></svg><b>Sa, the key</b><span>A bold ring. Home, on every string.</span></button></li>
+        <li><button type="button" data-x="893" data-y="790" data-z="3"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="24" r="11" fill="none" stroke="#F2E8D8" stroke-width="1.3"/><path d="M20 3 L21.6 8.4 L27 10 L21.6 11.6 L20 17 L18.4 11.6 L13 10 L18.4 8.4Z" fill="#F2E8D8"/></svg><b>The vadi, a star</b><span>The king: the note the raga leans on most.</span></button></li>
+        <li><button type="button" data-x="1694" data-y="790" data-z="3"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="24" r="11" fill="none" stroke="#F2E8D8" stroke-width="1.3"/><circle cx="14" cy="10" r="1.7" fill="#F2E8D8"/><circle cx="20" cy="8" r="1.7" fill="#F2E8D8"/><circle cx="26" cy="10" r="1.7" fill="#F2E8D8"/></svg><b>The samvadi, three beads</b><span>The queen: its partner, a fourth or fifth away.</span></button></li>
+        <li><button type="button" data-x="900" data-y="480" data-z="1.9"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="12" cy="20" r="8" fill="none" stroke="#F2E8D8" stroke-width="1.3"/><circle cx="30" cy="20" r="8" fill="none" stroke="#8C8478" stroke-width="1"/></svg><b>Brightness</b><span>Brighter matters more; dimmer is komal.</span></button></li>
+        <li><button type="button" data-x="1188" data-y="485" data-z="1"><svg viewBox="0 0 40 40" aria-hidden="true"><text x="20" y="25" text-anchor="middle" font-family="Lora" font-size="12" fill="#4A443D">dha</text></svg><b>Faint names</b><span>Everything outside the raga, so the board is a full map.</span></button></li>
+      </ul>
+      <p class="payoff">Once you know it, the board stops being a diagram and becomes <em>a map of the raga</em>: home on every string, the notes to lean on, and where to go next.</p>
+    </div>
+    <div class="phone"><div class="zoomframe" data-legendframe><img src="/case/shruti/01-frets-yaman.png" alt="The final fretboard, zooming to each mark in the legend"></div></div>
+  </section>
+
+
+  <section class="d-grid rise" style="padding-bottom:28px">
+    <h2>Key decision: the fewest marks that say the most</h2>
+    <div class="body"><p>A raga isn't just a set of notes. <strong>Sa</strong> is home, and two notes carry it: the <strong>vadi</strong>, the king, and the <strong>samvadi</strong>, its queen. Practice is about finding them fast, on any string, mid-phrase.</p><p>On the harmonium that was hard but fundamentally easy: the keys stand out by themselves, so lighting the right ones is enough. On the frets there are no keys, only strings and wires, and it took five rounds to get right. Every round added colour, and every round got harder to read with the instrument on my lap. The version I kept says it with almost nothing.</p></div>
+    <aside class="margin"><span class="k">Prototypes</span><p>Each round was a live prototype with real-size phone frames and the options side by side. Below are four notes of Yaman (Sa, Re, the vadi Ga and the samvadi Ni), drawn the way each round drew them.</p></aside>
+  </section>
+  <section class="d-evo rise">
+    <div class="octaves" data-octaves></div>
+  </section>
+
+  <section class="d-tour">
+    <div class="steps">
+      <div class="intro rise"><span class="k">Find my scale</span><h2>Tap what you play. It names the raga.</h2><p style="color:var(--shuddha)">Over a session I'd settle on notes that sat right, without knowing what I'd made. Build mode turns the app around.</p></div>
+      <div class="d-step" data-img="0" data-x="1188" data-y="485" data-z="1"><span class="k">01</span><h3>Tap the notes that sound right</h3><p>Build mode goes quiet: every note fades except Sa. Tap the ones you're playing, on the frets or the keys.</p></div>
+      <div class="d-step" data-img="1" data-x="1960" data-y="330" data-z="2"><span class="k">02</span><h3>It thinks along with you</h3><p>Three notes in, it already knows which ragas they belong to, and that one or two more will settle it.</p></div>
+      <div class="d-step" data-img="2" data-x="1960" data-y="400" data-z="2"><span class="k">03</span><h3>“This is Bhupali”</h3><p>Five notes, and an answer in plain words, with yours set against the raga's note by note.</p></div>
+      <div class="d-step" data-img="3" data-x="1960" data-y="400" data-z="2"><span class="k">04</span><h3>Add two, and it's Yaman</h3><p>Tap tivra Ma and Ni and the answer changes: an exact match for Yaman.</p></div>
+      <div class="d-step" data-img="3" data-x="1880" data-y="760" data-z="2.2"><span class="k">05</span><h3>And what's close</h3><p>Bhupali stays in view underneath, as Yaman minus those two notes.</p></div>
+    </div>
+    <div class="stage"><div class="phone"><div class="zoomframe" data-tourframe><img src="/case/shruti/05-build-seq-1.png" alt="Build mode just opened: only Sa is lit"><img class="hide" src="/case/shruti/05-build-seq-2.png" alt="Sa, Re and Ga tapped: the panel lists the ragas they fit"><img class="hide" src="/case/shruti/05-build-seq-3.png" alt="Five notes tapped: This is Bhupali"><img class="hide" src="/case/shruti/05-build-seq-4.png" alt="Tivra Ma and Ni added: This is Yaman, with Bhupali nearby"></div></div></div>
+  </section>
+
+  <section class="d-pair rise">
+    <div class="phone"><img src="/case/shruti/02-keys-yaman.png" alt="Shruti's harmonium view: raga Yaman on the keys"></div>
+    <div class="cap"><span class="k">Where it began</span><h2>The harmonium</h2><p>Shruti started as a way to play ragas on the harmonium. The keys were already in front of me; what I wanted was to see a raga on them: which keys belong, which ones matter most, and how its lines walk up and down.</p><p>So the first Shruti did exactly that. Pick a raga, watch its notes light up on the keys, and hear its lines walked note by note. It still lives inside the app, one tap away from the frets.</p></div>
+  </section>
+
+  <section class="d-band rise">
+    <span class="k">How it grew</span><h2 style="font-size:clamp(28px,2.8vw,40px)">From keys to frets</h2>
+    <div class="a-timeline">
+      <div><b>2023</b><p>A harmonium tool for practising ragas.</p></div>
+      <div><b>2025</b><p>A Mohan veena, and the same help on the frets.</p></div>
+      <div><b>Oct 2026</b><p>Twenty phases in five days: the harmonium view, Build modes, Tap to hear, the icon.</p></div>
+      <div><b>Now</b><p>A guided tour, then Google Play.</p></div>
+    </div>
+  </section>
+
+  <section class="d-band rise">
+    <div class="a-next">
+      <div><span class="k">What's next</span><h2 style="font-size:clamp(30px,3.4vw,48px)">A tour, then the store</h2><p style="color:var(--shuddha);margin-top:16px">Shruti does a lot that isn't obvious on first open, so the release waits for a guided tour. After that, more instruments.</p></div>
+      <div class="stack"><div class="phone"><img src="/case/shruti/02-keys-yaman.png" alt=""></div><div class="phone"><img src="/case/shruti/04-build-tuning-ideas.png" alt=""></div></div>
+    </div>
+  </section>
+</main>
+</div> <nav class="cs-end" aria-label="More case studies"> <a href="/projects/#shruti">← All projects</a> <a href="/projects/bloom/">Next: Bloom →</a> </nav> <script>// D: zoom helper, legend explorer and the scoped guided tour.
+  const zoomTo = (frame, x0, y0, z) => {
+    const fw = frame.clientWidth, fh = frame.clientHeight, k = fw / 2376;
+    let tx = fw / 2 - z * x0 * k, ty = fh / 2 - z * y0 * k;
+    tx = Math.min(0, Math.max(fw - fw * z, tx)); ty = Math.min(0, Math.max(fh - fh * z, ty));
+    frame.querySelectorAll('img').forEach((im) => { im.style.transform = `translate(${tx}px, ${ty}px) scale(${z})`; });
+  };
+  const lf = document.querySelector('[data-legendframe]');
+  const lbtns = [...document.querySelectorAll('[data-legend] button')];
+  const pick = (b) => { lbtns.forEach((x) => x.setAttribute('aria-pressed', String(x === b))); zoomTo(lf, +b.dataset.x, +b.dataset.y, +b.dataset.z); };
+  // Autoplay: cycles the marks while the legend is in view; any hover, tap or focus takes over, and it resumes after a pause.
+  const lsec = document.querySelector('.d-legend'), DWELL = 2600, RESUME = 4000;
+  let li = 0, ltimer = null, lresume = null, lvisible = false;
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const play = () => {
+    clearTimeout(ltimer); if (!lvisible || still) return;
+    const b = lbtns[li % lbtns.length]; pick(b);
+    lbtns.forEach((x) => x.classList.remove('playing')); void b.offsetWidth; b.classList.add('playing');
+    ltimer = setTimeout(() => { li++; play(); }, DWELL);
+  };
+  const takeOver = (b) => {
+    clearTimeout(ltimer); clearTimeout(lresume); lsec.classList.add('touched');
+    lbtns.forEach((x) => x.classList.remove('playing')); pick(b); li = lbtns.indexOf(b) + 1;
+  };
+  const release = () => { clearTimeout(lresume); lresume = setTimeout(play, RESUME); };
+  lbtns.forEach((b) => { b.addEventListener('click', () => takeOver(b)); b.addEventListener('mouseenter', () => takeOver(b)); b.addEventListener('focus', () => takeOver(b)); });
+  document.querySelector('[data-legend]').addEventListener('mouseleave', release);
+  document.querySelector('[data-legend]').addEventListener('focusout', release);
+  new IntersectionObserver(([e]) => { lvisible = e.isIntersecting; if (lvisible) play(); else { clearTimeout(ltimer); clearTimeout(lresume); } }, { threshold: 0.55 }).observe(lsec);
+  pick(lbtns[0]);
+  const tf = document.querySelector('[data-tourframe]');
+  const dsteps = [...document.querySelectorAll('.d-step')];
+  const dFocus = () => {
+    const mid = innerHeight / 2; let best = null, bd = Infinity;
+    dsteps.forEach((s) => { const r = s.getBoundingClientRect(); const d = Math.abs(r.top + r.height / 2 - mid); if (d < bd) { bd = d; best = s; } });
+    if (best) { dsteps.forEach((s) => s.classList.toggle('on', s === best)); [...tf.querySelectorAll('img')].forEach((im, i) => im.classList.toggle('hide', i !== +best.dataset.img)); zoomTo(tf, +best.dataset.x, +best.dataset.y, +best.dataset.z); }
+  };
+  addEventListener('scroll', dFocus, { passive: true });
+  addEventListener('resize', dFocus);
+  dFocus();
+
+  // Key decision: one octave of Yaman, drawn the way each design round drew it.
+  (() => {
+    const host = document.querySelector('[data-octaves]'); if (!host) return;
+    const SOL = ['Sa','re','Re','ga','Ga','Ma','Ma','Pa','dha','Dha','ni','Ni'];
+    const UP = [0,2,4,6,7,9,11], SHOW = [0, 2, 4, 11], V = 4, SV = 11, ALT = new Set([1,3,6,8,10]);
+    const SW = { 0:'#F2E8D8', 2:'#D99A9A', 4:'#E3A877', 6:'#B9D3A8', 7:'#F2E8D8', 9:'#8FB2D6', 11:'#B09ED6' };
+    const rounds = [
+      { k: 'Round 1', n: 'Bars', d: 'Where the notes are, coloured by kind.', draw: (i, on, cx, cy) => {
+          if (!on) return `<circle cx="${cx}" cy="${cy}" r="2" fill="#3A3530"/>`;
+          const kind = i === V || i === SV ? '#6ABFB0' : ALT.has(i) ? '#7898B8' : '#C49080', h = i === V || i === SV ? 40 : ALT.has(i) ? 26 : 34;
+          return `<rect x="${cx-4}" y="${cy+14-h}" width="8" height="${h}" rx="4" fill="${kind}"/><text x="${cx}" y="${cy+34}" text-anchor="middle" font-size="12" font-style="italic" fill="${kind}">${SOL[i]}</text>`; } },
+      { k: 'Round 2', n: 'Rings', d: 'A note becomes a ring, still coloured by kind.', draw: (i, on, cx, cy) => {
+          if (!on) return `<circle cx="${cx}" cy="${cy}" r="2" fill="#3A3530"/>`;
+          const c = i === V || i === SV ? '#6ABFB0' : ALT.has(i) ? '#7898B8' : '#C49080';
+          return `<circle cx="${cx}" cy="${cy}" r="14" fill="#14110E" stroke="${c}" stroke-width="2.2"/>${i === V ? `<circle cx="${cx}" cy="${cy}" r="18" fill="none" stroke="${c}" stroke-width="1.1"/>` : ''}<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11.5" fill="${c}">${SOL[i]}</text>`; } },
+      { k: 'Round 3', n: 'Importance', d: 'Brighter for what matters; the pair still teal.', draw: (i, on, cx, cy) => {
+          if (!on) return `<circle cx="${cx}" cy="${cy}" r="2" fill="#3A3530"/>`;
+          const c = i === V ? '#5FB0A2' : i === SV ? '#3F8F84' : i === 0 ? '#F2E8D8' : '#B4AA98', w = i === 0 ? 2.4 : 1.4;
+          return `<circle cx="${cx}" cy="${cy}" r="14" fill="#14110E" stroke="${c}" stroke-width="${w}"/>${i === V ? `<circle cx="${cx}" cy="${cy}" r="18" fill="none" stroke="${c}" stroke-width="1.1"/>` : ''}<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11.5" fill="${c}">${SOL[i]}</text>`; } },
+      { k: 'Round 4', n: 'A colour per note', d: 'Learnable, but a rainbow to read mid-phrase.', draw: (i, on, cx, cy) => {
+          if (!on) return `<circle cx="${cx}" cy="${cy}" r="2" fill="#3A3530"/>`;
+          const c = SW[i], w = i === 0 || i === 7 ? 2 : 1.5;
+          return `<circle cx="${cx}" cy="${cy}" r="14" fill="#14110E" stroke="${c}" stroke-width="${i === SV ? 2.6 : w}"/>${i === V ? `<circle cx="${cx}" cy="${cy}" r="18" fill="none" stroke="${c}" stroke-width="1.1"/>` : ''}<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11.5" fill="${c}">${SOL[i]}</text>`; } },
+      { k: 'Final', n: 'No colour', d: 'Ivory, brightness, a bold Sa, a star and three beads.', final: true, draw: (i, on, cx, cy) => {
+          if (!on) return `<text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11.5" fill="#4A443D">${SOL[i]}</text>`;
+          const top = i === 0 || i === V || i === SV, c = top ? '#F2E8D8' : ALT.has(i) && i !== 6 ? '#8C8478' : '#B4AA98';
+          let m = `<circle cx="${cx}" cy="${cy}" r="14" fill="#14110E" stroke="${c}" stroke-width="${i === 0 ? 2.4 : 1.3}"/><text x="${cx}" y="${cy+4}" text-anchor="middle" font-size="11.5" fill="${c}">${SOL[i]}</text>`;
+          if (i === 6) m += `<path d="M${cx-2} ${cy-9}L${cx+2} ${cy-13}" stroke="${c}" stroke-width="1.2" stroke-linecap="round"/>`;
+          if (i === V) { const y = cy - 22, r = 5; m += `<path d="M${cx} ${y-r}L${cx+r*.32} ${y-r*.32}L${cx+r} ${y}L${cx+r*.32} ${y+r*.32}L${cx} ${y+r}L${cx-r*.32} ${y+r*.32}L${cx-r} ${y}L${cx-r*.32} ${y-r*.32}Z" fill="${c}"/>`; }
+          if (i === SV) [-1,0,1].forEach((k) => { const a = (-90 + k*32) * Math.PI/180; m += `<circle cx="${(cx+Math.cos(a)*19).toFixed(1)}" cy="${(cy+Math.sin(a)*19).toFixed(1)}" r="1.6" fill="${c}"/>`; });
+          return m; } },
+    ];
+    host.innerHTML = rounds.map((r) => {
+      let g = '';
+      SHOW.forEach((i, n) => { g += r.draw(i, true, 24 + n * 42, 34); });
+      return `<div class="oct${r.final ? ' final' : ''}" title="${r.d}"><svg viewBox="0 0 174 74" role="img" aria-label="${r.k}: ${r.n}. ${r.d}" font-family="Lora, Georgia, serif">${g}</svg><div class="lab"><span class="k">${r.k}</span><b>${r.n}</b></div></div>`;
+    }).join('');
+  })();
+</script>  <footer class="foot"> <a href="https://github.com/chirag3103">GITHUB</a> <a href="https://www.linkedin.com/in/agarwal-chirag">LINKEDIN</a> <span>AGARWALCHIRAG.COM</span> </footer> </body></html>
